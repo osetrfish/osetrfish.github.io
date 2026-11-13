@@ -174,9 +174,9 @@ button { font: inherit; color: inherit; }
 @media (max-width: 900px) {
   .nav { display: none; }
   .hero__inner { display: block; }
-  .hero { padding-bottom: calc(48vw + 120px); overflow: hidden; }
-  .hero__fish { position: absolute; z-index: 0; right: -12vw; bottom: clamp(80px, 20vw, 120px); width: 84vw; max-width: 520px; }
-  .hero__fish img { animation-duration: 5s; }
+  .hero { padding-bottom: calc(38vw + 160px); overflow: hidden; }
+  .hero__fish { position: absolute; z-index: 0; right: 16px; bottom: clamp(120px, 32vw, 160px); width: 66vw; max-width: 420px; }
+  .hero__fish img { animation: none; }
   .good__buy { grid-column: auto; }
   .cart-btn { margin-left: auto; }
   .price__head { grid-template-columns: 1fr; }
