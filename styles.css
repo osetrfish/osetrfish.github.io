@@ -10,6 +10,9 @@
   --color-line: #2c5a5e;
   --color-line-ink: #cfdcd8;
   --color-accent: #f2915e;    /* цвет балыка: главная кнопка и цены */
+  --color-on-accent: #1a1410; /* текст на акценте */
+  --color-photo: #efe9df;     /* подложка под фото, пока грузится */
+  --color-read: #2f8f7a;      /* галочки «прочитано» в окне чата */
   --font-display: "Unbounded", system-ui, sans-serif;
   --font-body: "Golos Text", system-ui, sans-serif;
   --space-section: clamp(72px, 10vw, 140px);
@@ -32,7 +35,7 @@ button { font: inherit; color: inherit; }
 /* Кнопки */
 .btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 52px; padding: 0 24px; border: 0; border-radius: var(--radius); font-weight: 600; text-decoration: none; cursor: pointer; transition: background-color .15s var(--ease), transform .15s var(--ease); }
 .btn:active { transform: scale(.98); }
-.btn--accent { background: var(--color-accent); color: #1a1410; }
+.btn--accent { background: var(--color-accent); color: var(--color-on-accent); }
 .btn--accent:hover { background: #f6a77b; }
 .btn--ghost { background: transparent; color: inherit; box-shadow: inset 0 0 0 1.5px currentColor; }
 .btn--ghost:hover { background: rgba(233, 241, 238, .08); }
@@ -49,7 +52,7 @@ button { font: inherit; color: inherit; }
 .nav a:hover { color: var(--color-text); }
 .cart-btn { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 16px; border: 0; border-radius: 999px; background: rgba(233, 241, 238, .1); cursor: pointer; transition: background-color .15s; }
 .cart-btn:hover { background: rgba(233, 241, 238, .18); }
-.cart-btn__count { min-width: 22px; height: 22px; padding: 0 6px; border-radius: 11px; background: var(--color-accent); color: #1a1410; font: 600 13px/22px var(--font-body); text-align: center; }
+.cart-btn__count { min-width: 22px; height: 22px; padding: 0 6px; border-radius: 11px; background: var(--color-accent); color: var(--color-on-accent); font: 600 13px/22px var(--font-body); text-align: center; }
 .cart-btn__count.bump { animation: bump .3s var(--ease); }
 @keyframes bump { 50% { transform: scale(1.25); } }
 
@@ -64,8 +67,6 @@ button { font: inherit; color: inherit; }
 .hero h1 { font-size: clamp(38px, 5.6vw, 84px); max-width: 14ch; letter-spacing: -.03em; }
 .hero__lead { max-width: 42ch; color: var(--color-muted); font-size: 19px; margin: 28px 0 36px; }
 .hero__actions { display: flex; flex-wrap: wrap; gap: 12px; }
-.hero__prices { display: flex; flex-wrap: wrap; gap: 20px 48px; list-style: none; padding: 0; margin: 56px 0 0; color: var(--color-muted); }
-.hero__prices b { display: block; color: var(--color-text); font: 500 clamp(20px, 2vw, 26px)/1.3 var(--font-display); }
 .wave { position: absolute; left: 0; width: 100%; display: block; }
 .wave--hero { bottom: -1px; height: clamp(90px, 16vh, 180px); }
 .wave__back { fill: var(--color-deep); }
@@ -77,7 +78,7 @@ button { font: inherit; color: inherit; }
 .price__head h2 { font-size: clamp(40px, 6vw, 80px); }
 .price__head p { color: var(--color-muted-ink); max-width: 44ch; }
 .goods { list-style: none; padding: 0; margin: 0; border-top: 2px solid var(--color-ink); }
-.good__photo { width: 100%; aspect-ratio: 300 / 168; object-fit: cover; border-radius: var(--radius); background: #efe9df; }
+.good__photo { width: 100%; aspect-ratio: 300 / 168; object-fit: cover; border-radius: var(--radius); background: var(--color-photo); }
 .good { display: grid; grid-template-columns: 180px minmax(0, 1fr) auto auto; gap: 16px 36px; align-items: center; padding: 32px 0; border-bottom: 1px solid var(--color-line-ink); }
 .good__name { font: 700 clamp(24px, 2.6vw, 34px)/1.05 var(--font-display); letter-spacing: -.02em; }
 .good__unit { color: var(--color-muted-ink); margin-top: 8px; }
@@ -100,12 +101,21 @@ button { font: inherit; color: inherit; }
 .steps h3 { font-size: 22px; line-height: 1.15; margin-bottom: 12px; }
 .steps p { color: var(--color-muted); }
 
-/* Контакты */
-.contacts { padding: 0 var(--gutter) var(--space-section); }
-.contacts h2 { font-size: clamp(22px, 2.4vw, 30px); color: var(--color-muted); font-weight: 500; }
-.contacts__phone { display: inline-block; margin: 20px 0 36px; font: 700 clamp(36px, 7.5vw, 112px)/1 var(--font-display); letter-spacing: -.04em; text-decoration: none; white-space: nowrap; }
-.contacts__phone:hover { color: var(--color-accent); }
-.contacts__actions { display: flex; flex-wrap: wrap; gap: 12px; }
+/* Заказ в чате: слева текст и кнопки, справа окно мессенджера с живым текстом заказа */
+.chat { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(40px, 6vw, 96px); align-items: center; padding: 0 var(--gutter) var(--space-section); }
+.chat h2 { font-size: clamp(34px, 4.4vw, 60px); }
+.chat__text p { color: var(--color-muted); max-width: 40ch; margin: 24px 0 32px; font-size: 18px; }
+.chat__actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.chat__window { margin: 0; border-radius: 28px; background: var(--color-deep); padding: 0 0 28px; overflow: hidden; transform: rotate(1.5deg); transition: transform .3s var(--ease); }
+.chat__window:hover { transform: none; }
+.chat__bar { display: flex; align-items: center; gap: 12px; padding: 16px 22px; border-bottom: 1px solid var(--color-line); }
+.chat__bar img { width: 52px; height: auto; }
+.chat__bar span { display: grid; line-height: 1.25; }
+.chat__bar small { color: var(--color-muted); font-size: 14px; }
+.chat__bubble { position: relative; margin: 28px 22px 0 auto; max-width: 88%; width: fit-content; padding: 14px 16px 10px; border-radius: 18px 18px 4px 18px; background: var(--color-ice); color: var(--color-ink); }
+.chat__bubble p { white-space: pre-line; font-size: 15px; line-height: 1.5; }
+.chat__time { display: flex; justify-content: flex-end; align-items: center; gap: 4px; margin-top: 6px; font-size: 12px; color: var(--color-muted-ink); }
+.chat__time .ic { width: 16px; height: 16px; color: var(--color-read); }
 
 /* Подвал */
 .foot { position: relative; background: var(--color-deep); color: var(--color-muted); padding: 48px var(--gutter) 40px; }
@@ -165,11 +175,13 @@ button { font: inherit; color: inherit; }
   .steps { grid-template-columns: 1fr; gap: 40px; }
   .steps li, .steps li + li { padding: 0; border: 0; }
   .steps__n { margin-bottom: 12px; }
+  .chat { grid-template-columns: 1fr; }
+  .chat__window { transform: none; }
 }
 @media (max-width: 480px) {
   .cart-btn__label { display: none; }
   .hero__actions .btn { flex: 1 1 100%; }
   .cart__send { grid-template-columns: 1fr; }
-  .contacts__actions .btn { flex: 1 1 100%; }
+  .chat__actions .btn { flex: 1 1 100%; }
 }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }

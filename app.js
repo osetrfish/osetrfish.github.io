@@ -78,7 +78,13 @@ function renderCart() {
       <button class="icon-btn" type="button" data-remove aria-label="Убрать ${g.name}">${icon('trash')}</button>
     </li>`;
   }).join('');
+
+  // Окно чата внизу страницы: пустая корзина — пример, иначе — настоящий текст заказа.
+  $('[data-preview]').textContent = count ? orderText() : orderText(EXAMPLE, false);
+  $('[data-preview-label]').textContent = count ? 'ваш заказ' : 'пример заказа';
 }
+
+const EXAMPLE = { osetr: 1, ikra: 1 };
 
 const round = (n) => Math.round(n * 10) / 10;
 
@@ -138,14 +144,14 @@ function closeCart() {
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !cartEl.hidden) closeCart(); });
 
 // Текст заказа для мессенджера
-function orderText() {
-  const ids = Object.keys(cart);
-  const total = ids.reduce((s, id) => s + byId[id].price * cart[id], 0);
-  const name = $('[data-name]').value.trim();
-  const comment = $('[data-comment]').value.trim();
+function orderText(items = cart, withForm = true) {
+  const ids = Object.keys(items);
+  const total = ids.reduce((s, id) => s + byId[id].price * items[id], 0);
+  const name = withForm ? $('[data-name]').value.trim() : '';
+  const comment = withForm ? $('[data-comment]').value.trim() : '';
   const lines = ids.map((id, i) => {
     const g = byId[id];
-    return `${i + 1}. ${g.name}: ${fmtQty(g, cart[id])} = ${rub(g.price * cart[id])}`;
+    return `${i + 1}. ${g.name}: ${fmtQty(g, items[id])} = ${rub(g.price * items[id])}`;
   });
   return [
     'Здравствуйте! Хочу сделать заказ на сайте OSETR FISH:',
@@ -173,7 +179,11 @@ function fallbackCopy(text) {
 const tgLink = () => TELEGRAM_USERNAME ? `https://t.me/${TELEGRAM_USERNAME}` : `https://t.me/+${PHONE}`;
 
 function sendOrder(where) {
-  if (!Object.keys(cart).length) return;
+  // Корзина пустая — просто открываем чат, без текста заказа.
+  if (!Object.keys(cart).length) {
+    window.open(where === 'wa' ? `https://wa.me/${PHONE}` : tgLink(), '_blank', 'noopener');
+    return;
+  }
   const text = orderText();
   if (where === 'wa') {
     window.open(`https://wa.me/${PHONE}?text=${encodeURIComponent(text)}`, '_blank', 'noopener');
@@ -186,7 +196,8 @@ function sendOrder(where) {
   window.open(tgLink(), '_blank', 'noopener');
 }
 
-document.querySelectorAll('[data-tg-plain]').forEach((a) => { a.href = tgLink(); });
+// Имя и комментарий из корзины сразу видны в окне чата.
+document.addEventListener('input', (e) => { if (e.target.closest('[data-name], [data-comment]')) renderCart(); });
 
 let toastTimer;
 function toast(msg, withCart) {
