@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /variants/
+
+Sitemap: https://mdelucia33.github.io/sitemap.xml

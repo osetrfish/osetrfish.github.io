@@ -1,0 +1,201 @@
+// Корзина OSETR FISH: товары, сохранение, отправка заказа в WhatsApp и Telegram.
+
+// Куда уходят заказы. Появится ник в Telegram — впишите его без @, например 'osetrfish'.
+const PHONE = '79627511999';
+const TELEGRAM_USERNAME = '';
+
+// step — шаг выбора: рыба по 0,5 кг, икра банками по 100 г (price — за одну единицу шага × 1).
+const GOODS = [
+  { id: 'osetr', name: 'Осётр копчёный', price: 3300, per: 'кг', unit: 'кг', step: 0.5, min: 0.5, note: 'На вес, от 0,5 кг', img: 'images/osetr.jpg', alt: 'Копчёный осётр: целый кусок и ломтики на тёмной доске' },
+  { id: 'balyk', name: 'Балык осетровый', price: 5500, per: 'кг', unit: 'кг', step: 0.5, min: 0.5, note: 'На вес, от 0,5 кг', img: 'images/balyk.jpg', alt: 'Балык осетровый ломтиками на тёмной доске' },
+  { id: 'ikra', name: 'Икра стерляди', price: 4400, per: '100 г', unit: 'банка', step: 1, min: 1, note: 'Банка 100 г', img: 'images/ikra.jpg', alt: 'Открытая банка икры стерляди OSETR FISH и ложка с икрой' },
+];
+
+const STORE_KEY = 'osetr-cart';
+const byId = Object.fromEntries(GOODS.map((g) => [g.id, g]));
+const rub = (n) => Math.round(n).toLocaleString('ru-RU') + ' ₽';
+const fmtQty = (g, q) => g.unit === 'кг'
+  ? q.toLocaleString('ru-RU', { maximumFractionDigits: 1 }) + ' кг'
+  : q + ' × 100 г';
+
+let cart = load();
+
+function load() {
+  try {
+    const raw = JSON.parse(localStorage.getItem(STORE_KEY) || '{}');
+    return Object.fromEntries(Object.entries(raw).filter(([id, q]) => byId[id] && q > 0));
+  } catch { return {}; }
+}
+function save() {
+  try { localStorage.setItem(STORE_KEY, JSON.stringify(cart)); } catch { /* приватный режим: корзина живёт до закрытия вкладки */ }
+}
+
+const $ = (s, root = document) => root.querySelector(s);
+const icon = (name) => `<svg class="ic"><use href="#i-${name}"/></svg>`;
+
+function stepper(g, q, attr) {
+  return `<span class="stepper">
+    <button type="button" ${attr}="-" aria-label="Меньше" ${q <= g.min ? 'disabled' : ''}>${icon('minus')}</button>
+    <output aria-live="polite">${fmtQty(g, q)}</output>
+    <button type="button" ${attr}="+" aria-label="Больше">${icon('plus')}</button>
+  </span>`;
+}
+
+// Прайс: у каждого товара свой выбор количества до добавления в корзину.
+const picked = Object.fromEntries(GOODS.map((g) => [g.id, g.min]));
+
+function renderGoods() {
+  $('[data-goods]').innerHTML = GOODS.map((g) => `
+    <li class="good" data-id="${g.id}">
+      <img class="good__photo" src="${g.img}" alt="${g.alt}" width="300" height="168" loading="lazy" decoding="async">
+      <div><h3 class="good__name">${g.name}</h3><p class="good__unit">${g.note}</p></div>
+      <p class="good__price">${g.price.toLocaleString('ru-RU')} ₽<small>/${g.per}</small></p>
+      <div class="good__buy">
+        ${stepper(g, picked[g.id], 'data-pick')}
+        <button class="btn btn--accent" type="button" data-add>${cart[g.id] ? 'Добавить ещё' : 'В корзину'}</button>
+      </div>
+    </li>`).join('');
+}
+
+function renderCart() {
+  const ids = Object.keys(cart);
+  const count = ids.length;
+  const total = ids.reduce((s, id) => s + byId[id].price * cart[id], 0);
+
+  const badge = $('[data-count]');
+  badge.hidden = count === 0;
+  badge.textContent = count;
+
+  $('[data-empty]').hidden = count > 0;
+  $('[data-filled]').hidden = count === 0;
+  $('[data-total]').textContent = rub(total);
+  $('[data-list]').innerHTML = ids.map((id) => {
+    const g = byId[id];
+    return `<li class="line" data-id="${id}">
+      <span class="line__name">${g.name}</span>
+      <span class="line__sum">${rub(g.price * cart[id])}</span>
+      <span class="line__ctrl">${stepper(g, cart[id], 'data-qty')}</span>
+      <button class="icon-btn" type="button" data-remove aria-label="Убрать ${g.name}">${icon('trash')}</button>
+    </li>`;
+  }).join('');
+}
+
+const round = (n) => Math.round(n * 10) / 10;
+
+document.addEventListener('click', (e) => {
+  const item = e.target.closest('[data-id]');
+  const id = item && item.dataset.id;
+  const g = id && byId[id];
+
+  const pick = e.target.closest('[data-pick]');
+  if (pick && g) {
+    picked[id] = Math.max(g.min, round(picked[id] + (pick.dataset.pick === '+' ? g.step : -g.step)));
+    renderGoods();
+    return;
+  }
+  if (e.target.closest('[data-add]') && g) {
+    cart[id] = round((cart[id] || 0) + picked[id]);
+    save(); renderCart(); renderGoods();
+    const badge = $('[data-count]');
+    badge.classList.remove('bump'); void badge.offsetWidth; badge.classList.add('bump');
+    toast(`${g.name}, ${fmtQty(g, picked[id])}: в корзине`, true);
+    return;
+  }
+  const qty = e.target.closest('[data-qty]');
+  if (qty && g) {
+    cart[id] = Math.max(g.min, round(cart[id] + (qty.dataset.qty === '+' ? g.step : -g.step)));
+    save(); renderCart();
+    return;
+  }
+  if (e.target.closest('[data-remove]') && g) {
+    delete cart[id];
+    save(); renderCart(); renderGoods();
+    return;
+  }
+  if (e.target.closest('[data-open-cart]')) { openCart(); return; }
+  if (e.target.closest('[data-close-cart]')) { closeCart(); return; }
+
+  const send = e.target.closest('[data-send]');
+  if (send) sendOrder(send.dataset.send);
+});
+
+// Выезжающая панель корзины
+const cartEl = $('[data-cart]');
+let lastFocus = null;
+function openCart() {
+  lastFocus = document.activeElement;
+  cartEl.hidden = false;
+  requestAnimationFrame(() => cartEl.classList.add('is-open'));
+  document.body.style.overflow = 'hidden';
+  $('[data-close-cart].icon-btn').focus();
+}
+function closeCart() {
+  cartEl.classList.remove('is-open');
+  document.body.style.overflow = '';
+  setTimeout(() => { cartEl.hidden = true; }, 220);
+  if (lastFocus) lastFocus.focus();
+}
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !cartEl.hidden) closeCart(); });
+
+// Текст заказа для мессенджера
+function orderText() {
+  const ids = Object.keys(cart);
+  const total = ids.reduce((s, id) => s + byId[id].price * cart[id], 0);
+  const name = $('[data-name]').value.trim();
+  const comment = $('[data-comment]').value.trim();
+  const lines = ids.map((id, i) => {
+    const g = byId[id];
+    return `${i + 1}. ${g.name}: ${fmtQty(g, cart[id])} = ${rub(g.price * cart[id])}`;
+  });
+  return [
+    'Здравствуйте! Хочу сделать заказ на сайте OSETR FISH:',
+    ...lines,
+    `Итого примерно: ${rub(total)}`,
+    name && `Имя: ${name}`,
+    comment && `Комментарий: ${comment}`,
+  ].filter(Boolean).join('\n');
+}
+
+function copy(text) {
+  if (navigator.clipboard && window.isSecureContext) return navigator.clipboard.writeText(text).then(() => true, () => fallbackCopy(text));
+  return Promise.resolve(fallbackCopy(text));
+}
+function fallbackCopy(text) {
+  const ta = document.createElement('textarea');
+  ta.value = text; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0';
+  document.body.appendChild(ta); ta.select();
+  let ok = false;
+  try { ok = document.execCommand('copy'); } catch { ok = false; }
+  ta.remove();
+  return ok;
+}
+
+const tgLink = () => TELEGRAM_USERNAME ? `https://t.me/${TELEGRAM_USERNAME}` : `https://t.me/+${PHONE}`;
+
+function sendOrder(where) {
+  if (!Object.keys(cart).length) return;
+  const text = orderText();
+  if (where === 'wa') {
+    window.open(`https://wa.me/${PHONE}?text=${encodeURIComponent(text)}`, '_blank', 'noopener');
+    return;
+  }
+  // Telegram не подставляет текст в личный чат по ссылке, поэтому копируем заказ и открываем чат.
+  copy(text).then((ok) => toast(ok
+    ? 'Текст заказа скопирован. Вставьте его в чат Telegram.'
+    : 'Не получилось скопировать. Перепишите заказ в чат или закажите в WhatsApp.'));
+  window.open(tgLink(), '_blank', 'noopener');
+}
+
+document.querySelectorAll('[data-tg-plain]').forEach((a) => { a.href = tgLink(); });
+
+let toastTimer;
+function toast(msg, withCart) {
+  const el = $('[data-toast]');
+  el.textContent = msg;
+  el.classList.add('is-on');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('is-on'), withCart ? 2200 : 4000);
+}
+
+renderGoods();
+renderCart();
