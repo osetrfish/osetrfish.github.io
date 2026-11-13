@@ -19,6 +19,9 @@ const fmtQty = (g, q) => g.unit === 'кг'
   : q + ' × 100 г';
 
 let cart = load();
+// Свои пожелания покупателя (то, чего нет в прайсе): строки текста, цену называет продавец.
+const WISH_KEY = 'osetr-wishes';
+let wishes = loadWishes();
 
 function load() {
   try {
@@ -26,6 +29,16 @@ function load() {
     return Object.fromEntries(Object.entries(raw).filter(([id, q]) => byId[id] && q > 0));
   } catch { return {}; }
 }
+function loadWishes() {
+  try {
+    const raw = JSON.parse(localStorage.getItem(WISH_KEY) || '[]');
+    return Array.isArray(raw) ? raw.filter((w) => typeof w === 'string' && w.trim()) : [];
+  } catch { return []; }
+}
+function saveWishes() {
+  try { localStorage.setItem(WISH_KEY, JSON.stringify(wishes)); } catch { /* см. save() */ }
+}
+const esc = (t) => t.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 function save() {
   try { localStorage.setItem(STORE_KEY, JSON.stringify(cart)); } catch { /* приватный режим: корзина живёт до закрытия вкладки */ }
 }
@@ -59,7 +72,7 @@ function renderGoods() {
 
 function renderCart() {
   const ids = Object.keys(cart);
-  const count = ids.length;
+  const count = ids.length + wishes.length;
   const total = ids.reduce((s, id) => s + byId[id].price * cart[id], 0);
 
   const badge = $('[data-count]');
@@ -68,7 +81,7 @@ function renderCart() {
 
   $('[data-empty]').hidden = count > 0;
   $('[data-filled]').hidden = count === 0;
-  $('[data-total]').textContent = rub(total);
+  $('[data-total]').textContent = wishes.length ? `${rub(total)} + пожелания` : rub(total);
   $('[data-list]').innerHTML = ids.map((id) => {
     const g = byId[id];
     return `<li class="line" data-id="${id}">
@@ -77,10 +90,15 @@ function renderCart() {
       <span class="line__ctrl">${stepper(g, cart[id], 'data-qty')}</span>
       <button class="icon-btn" type="button" data-remove aria-label="Убрать ${g.name}">${icon('trash')}</button>
     </li>`;
-  }).join('');
+  }).join('') + wishes.map((w, i) => `
+    <li class="line" data-wish="${i}">
+      <span class="line__name">${esc(w)}</span>
+      <span class="line__sum line__sum--muted">цену назовёт продавец</span>
+      <button class="icon-btn" type="button" data-remove-wish aria-label="Убрать пожелание">${icon('trash')}</button>
+    </li>`).join('');
 
   // Окно чата внизу страницы: пустая корзина — пример, иначе — настоящий текст заказа.
-  $('[data-preview]').textContent = count ? orderText() : orderText(EXAMPLE, false);
+  $('[data-preview]').textContent = count ? orderText() : orderText(EXAMPLE, false, []);
   $('[data-preview-label]').textContent = count ? 'ваш заказ' : 'пример заказа';
 }
 
@@ -118,6 +136,19 @@ document.addEventListener('click', (e) => {
     save(); renderCart(); renderGoods();
     return;
   }
+  const wishLine = e.target.closest('[data-wish]');
+  if (wishLine && e.target.closest('[data-remove-wish]')) {
+    wishes.splice(Number(wishLine.dataset.wish), 1);
+    saveWishes(); renderCart();
+    return;
+  }
+  const chip = e.target.closest('[data-wish-chip]');
+  if (chip) {
+    const what = $('[data-wish-what]');
+    what.value = chip.textContent.trim();
+    what.form.elements.amount.focus();
+    return;
+  }
   if (e.target.closest('[data-open-cart]')) { openCart(); return; }
   if (e.target.closest('[data-close-cart]')) { closeCart(); return; }
 
@@ -144,7 +175,7 @@ function closeCart() {
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !cartEl.hidden) closeCart(); });
 
 // Текст заказа для мессенджера
-function orderText(items = cart, withForm = true) {
+function orderText(items = cart, withForm = true, extra = wishes) {
   const ids = Object.keys(items);
   const total = ids.reduce((s, id) => s + byId[id].price * items[id], 0);
   const name = withForm ? $('[data-name]').value.trim() : '';
@@ -153,10 +184,11 @@ function orderText(items = cart, withForm = true) {
     const g = byId[id];
     return `${i + 1}. ${g.name}: ${fmtQty(g, items[id])} = ${rub(g.price * items[id])}`;
   });
+  extra.forEach((w) => lines.push(`${lines.length + 1}. ${w} (уточнить цену)`));
   return [
     'Здравствуйте! Хочу сделать заказ на сайте OSETR FISH:',
     ...lines,
-    `Итого примерно: ${rub(total)}`,
+    ids.length && `Итого примерно: ${rub(total)}${extra.length ? ' без учёта пожеланий' : ''}`,
     name && `Имя: ${name}`,
     comment && `Комментарий: ${comment}`,
   ].filter(Boolean).join('\n');
@@ -180,7 +212,7 @@ const tgLink = () => TELEGRAM_USERNAME ? `https://t.me/${TELEGRAM_USERNAME}` : `
 
 function sendOrder(where) {
   // Корзина пустая — просто открываем чат, без текста заказа.
-  if (!Object.keys(cart).length) {
+  if (!Object.keys(cart).length && !wishes.length) {
     window.open(where === 'wa' ? `https://wa.me/${PHONE}` : tgLink(), '_blank', 'noopener');
     return;
   }
@@ -195,6 +227,22 @@ function sendOrder(where) {
     : 'Не получилось скопировать. Перепишите заказ в чат или закажите в WhatsApp.'));
   window.open(tgLink(), '_blank', 'noopener');
 }
+
+// Своё пожелание из формы под прайсом ложится в корзину отдельной строкой.
+document.addEventListener('submit', (e) => {
+  const form = e.target.closest('[data-wish-form]');
+  if (!form) return;
+  e.preventDefault();
+  const what = form.elements.what.value.trim();
+  const amount = form.elements.amount.value.trim();
+  if (!what) return;
+  wishes.push(amount ? `${what}, ${amount}` : what);
+  saveWishes(); renderCart();
+  form.reset();
+  const badge = $('[data-count]');
+  badge.classList.remove('bump'); void badge.offsetWidth; badge.classList.add('bump');
+  toast(`${what}: в корзине`, true);
+});
 
 // Имя и комментарий из корзины сразу видны в окне чата.
 document.addEventListener('input', (e) => { if (e.target.closest('[data-name], [data-comment]')) renderCart(); });
@@ -219,6 +267,31 @@ if (fish && fishMark && 'IntersectionObserver' in window) {
     if (entries[0].isIntersecting) { go(); io.disconnect(); }
   }).observe(fishMark);
   if (matchMedia('(min-width: 901px)').matches) setTimeout(go, 1200);
+}
+
+// Телефон: осётр в профиль проплывает справа налево, пока человек листает первый экран вниз.
+const swimmer = $('.swimmer');
+const phone = matchMedia('(max-width: 900px)');
+const calm = matchMedia('(prefers-reduced-motion: reduce)');
+if (swimmer) {
+  let ticking = false;
+  const place = () => {
+    ticking = false;
+    if (!phone.matches) return;
+    const vw = innerWidth;
+    const w = swimmer.offsetWidth;
+    if (calm.matches) { swimmer.style.transform = `translateX(${(vw - w) / 2}px)`; return; }
+    // Путь: сначала из-за правого края видна только морда, к моменту, когда рыба доходит до верха экрана, она уплывает влево.
+    const top = swimmer.getBoundingClientRect().top + scrollY;
+    const p = Math.min(1, Math.max(0, scrollY / Math.max(1, top - 80)));
+    const start = vw - 60;
+    const x = start - p * (start + w + 20);
+    const y = Math.sin(p * Math.PI * 2) * 8;
+    swimmer.style.transform = `translate(${x}px, ${y}px)`;
+  };
+  addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(place); } }, { passive: true });
+  addEventListener('resize', place);
+  place();
 }
 
 renderGoods();
