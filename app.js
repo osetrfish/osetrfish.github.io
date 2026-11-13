@@ -269,28 +269,5 @@ if (fish && fishMark && 'IntersectionObserver' in window) {
   if (matchMedia('(min-width: 901px)').matches) setTimeout(go, 1200);
 }
 
-// Осётр в профиль проплывает справа налево, пока человек листает первый экран вниз.
-const swimmer = $('.swimmer');
-const calm = matchMedia('(prefers-reduced-motion: reduce)');
-if (swimmer) {
-  let ticking = false;
-  const place = () => {
-    ticking = false;
-    const vw = innerWidth;
-    const w = swimmer.offsetWidth;
-    if (calm.matches) { swimmer.style.transform = `translateX(${(vw - w) / 2}px)`; return; }
-    // Путь: сначала из-за правого края видна только морда, к моменту, когда рыба доходит до верха экрана, она уплывает влево.
-    const top = swimmer.getBoundingClientRect().top + scrollY;
-    const p = Math.min(1, Math.max(0, scrollY / Math.max(1, top - 80)));
-    const start = vw - 60;
-    const x = start - p * (start + w + 20);
-    const y = Math.sin(p * Math.PI * 2) * 8;
-    swimmer.style.transform = `translate(${x}px, ${y}px)`;
-  };
-  addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(place); } }, { passive: true });
-  addEventListener('resize', place);
-  place();
-}
-
 renderGoods();
 renderCart();

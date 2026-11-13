@@ -70,7 +70,7 @@ button { font: inherit; color: inherit; }
 @keyframes fish-in { from { transform: translateX(60vw); opacity: 0; } 30% { opacity: 1; } to { transform: none; opacity: 1; } }
 @keyframes swim { 50% { transform: translate(-10px, 8px) rotate(-1.5deg); } }
 @keyframes bubble { 0% { transform: translate(0, 0) scale(.5); opacity: 0; } 15% { opacity: .8; } 100% { transform: translate(-14px, -110px) scale(1.1); opacity: 0; } }
-.hero { position: relative; overflow: hidden; padding: clamp(40px, 8vh, 96px) var(--gutter) 280px; }
+.hero { position: relative; overflow: hidden; padding: clamp(40px, 8vh, 96px) var(--gutter) clamp(140px, 22vh, 220px); }
 .hero__since { color: var(--color-muted); margin-bottom: 20px; }
 .hero h1 { font-size: clamp(38px, 5.6vw, 84px); max-width: 14ch; letter-spacing: -.03em; }
 .hero__lead { max-width: 42ch; color: var(--color-muted); font-size: 19px; margin: 28px 0 36px; }
@@ -100,14 +100,9 @@ button { font: inherit; color: inherit; }
 .stepper output { min-width: 76px; text-align: center; font-weight: 600; font-variant-numeric: tabular-nums; }
 .good .btn--accent.is-added { background: var(--color-bg); color: var(--color-text); }
 
-/* Осётр в профиль: на телефоне проплывает справа налево, пока листают вниз */
-.swimmer { position: absolute; z-index: 0; left: 0; bottom: 110px; width: clamp(240px, 72vw, 380px); will-change: transform; transform: translateX(110vw); pointer-events: none; }
-.swimmer svg { display: block; width: 100%; height: auto; overflow: visible; }
-.swimmer svg { filter: drop-shadow(0 10px 14px rgba(4, 22, 24, .35)); }
-.swimmer__tail { transform-origin: 350px 60px; animation: tail .7s ease-in-out infinite alternate; }
-.swimmer__body { transform-origin: 200px 60px; animation: body-sway 1.4s ease-in-out infinite alternate; }
-@keyframes tail { from { transform: rotate(-7deg) skewY(-3deg); } to { transform: rotate(7deg) skewY(3deg); } }
-@keyframes body-sway { from { transform: rotate(-1deg); } to { transform: rotate(1deg); } }
+/* Телефон: пузырьки воздуха поднимаются от волны под кнопками */
+.rise { display: none; }
+
 
 /* Своё пожелание под прайсом */
 .wish { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: 20px 48px; align-items: end; margin-top: 56px; padding: 36px; border-radius: 20px; background: var(--color-bg); color: var(--color-text); }
@@ -201,7 +196,17 @@ button { font: inherit; color: inherit; }
 @media (max-width: 900px) {
   .nav { display: none; }
   .hero__inner { display: block; }
-  .hero { padding-bottom: 240px; overflow: hidden; }
+  .hero { padding-bottom: 270px; }
+  .rise { display: block; position: absolute; left: 0; right: 0; bottom: 100px; height: 150px; }
+  .rise span { position: absolute; bottom: 0; width: 10px; height: 10px; border-radius: 50%; box-shadow: inset 0 0 0 1.5px var(--color-text); background: rgba(233, 241, 238, .12); opacity: 0; animation: rise 6s ease-in infinite; }
+  .rise span:nth-child(1) { left: 12%; animation-delay: 0s; }
+  .rise span:nth-child(2) { left: 26%; width: 6px; height: 6px; animation-delay: 2.1s; animation-duration: 5s; }
+  .rise span:nth-child(3) { left: 41%; width: 14px; height: 14px; animation-delay: 3.6s; animation-duration: 7s; }
+  .rise span:nth-child(4) { left: 55%; width: 7px; height: 7px; animation-delay: 1.2s; }
+  .rise span:nth-child(5) { left: 68%; width: 11px; height: 11px; animation-delay: 4.4s; animation-duration: 6.5s; }
+  .rise span:nth-child(6) { left: 80%; width: 5px; height: 5px; animation-delay: 2.8s; animation-duration: 4.5s; }
+  .rise span:nth-child(7) { left: 90%; width: 9px; height: 9px; animation-delay: .6s; animation-duration: 5.5s; }
+  @keyframes rise { 0% { transform: translate(0, 0) scale(.6); opacity: 0; } 15% { opacity: .8; } 50% { transform: translate(6px, -75px) scale(.9); } 100% { transform: translate(-4px, -150px) scale(1.1); opacity: 0; } }
   .hero__fish { display: none; }
   .hero__fish img { animation: none; }
   .good__buy { grid-column: auto; }
