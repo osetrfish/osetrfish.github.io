@@ -269,15 +269,13 @@ if (fish && fishMark && 'IntersectionObserver' in window) {
   if (matchMedia('(min-width: 901px)').matches) setTimeout(go, 1200);
 }
 
-// Телефон: осётр в профиль проплывает справа налево, пока человек листает первый экран вниз.
+// Осётр в профиль проплывает справа налево, пока человек листает первый экран вниз.
 const swimmer = $('.swimmer');
-const phone = matchMedia('(max-width: 900px)');
 const calm = matchMedia('(prefers-reduced-motion: reduce)');
 if (swimmer) {
   let ticking = false;
   const place = () => {
     ticking = false;
-    if (!phone.matches) return;
     const vw = innerWidth;
     const w = swimmer.offsetWidth;
     if (calm.matches) { swimmer.style.transform = `translateX(${(vw - w) / 2}px)`; return; }

@@ -70,7 +70,7 @@ button { font: inherit; color: inherit; }
 @keyframes fish-in { from { transform: translateX(60vw); opacity: 0; } 30% { opacity: 1; } to { transform: none; opacity: 1; } }
 @keyframes swim { 50% { transform: translate(-10px, 8px) rotate(-1.5deg); } }
 @keyframes bubble { 0% { transform: translate(0, 0) scale(.5); opacity: 0; } 15% { opacity: .8; } 100% { transform: translate(-14px, -110px) scale(1.1); opacity: 0; } }
-.hero { position: relative; padding: clamp(40px, 8vh, 96px) var(--gutter) clamp(140px, 22vh, 220px); }
+.hero { position: relative; overflow: hidden; padding: clamp(40px, 8vh, 96px) var(--gutter) 280px; }
 .hero__since { color: var(--color-muted); margin-bottom: 20px; }
 .hero h1 { font-size: clamp(38px, 5.6vw, 84px); max-width: 14ch; letter-spacing: -.03em; }
 .hero__lead { max-width: 42ch; color: var(--color-muted); font-size: 19px; margin: 28px 0 36px; }
@@ -101,7 +101,7 @@ button { font: inherit; color: inherit; }
 .good .btn--accent.is-added { background: var(--color-bg); color: var(--color-text); }
 
 /* Осётр в профиль: на телефоне проплывает справа налево, пока листают вниз */
-.swimmer { display: none; }
+.swimmer { position: absolute; z-index: 0; left: 0; bottom: 110px; width: clamp(240px, 72vw, 380px); will-change: transform; transform: translateX(110vw); pointer-events: none; }
 .swimmer svg { display: block; width: 100%; height: auto; overflow: visible; }
 .swimmer__body, .swimmer__tail { fill: var(--color-text); }
 .swimmer__scutes { fill: var(--color-muted); }
@@ -128,10 +128,6 @@ button { font: inherit; color: inherit; }
 .wish__chips button:hover { background: rgba(233, 241, 238, .2); }
 .line__sum--muted { font-weight: 400; font-size: 14px; color: var(--color-muted-ink); }
 
-/* Круглый штамп у осетра, медленно вращается */
-.stamp { position: absolute; right: -6%; top: -26%; width: clamp(84px, 9vw, 124px); height: auto; fill: var(--color-accent); animation: spin 26s linear infinite; }
-.stamp text { font: 600 10px var(--font-body); white-space: pre; }
-@keyframes spin { to { transform: rotate(360deg); } }
 
 /* Как заказать */
 .how { padding: var(--space-section) var(--gutter); }
@@ -210,7 +206,6 @@ button { font: inherit; color: inherit; }
   .hero__inner { display: block; }
   .hero { padding-bottom: 240px; overflow: hidden; }
   .hero__fish { display: none; }
-  .swimmer { display: block; position: absolute; left: 0; bottom: 120px; width: 72vw; max-width: 380px; will-change: transform; transform: translateX(110vw); }
   .hero__fish img { animation: none; }
   .good__buy { grid-column: auto; }
   .cart-btn { margin-left: auto; }
@@ -223,7 +218,6 @@ button { font: inherit; color: inherit; }
   .steps__n { margin-bottom: 12px; }
   .wish { grid-template-columns: 1fr; padding: 24px 20px; margin-top: 40px; }
   .wish__row { grid-template-columns: 1fr; }
-  .stamp { right: auto; left: -42%; top: 0; width: 84px; }
   .chat { grid-template-columns: 1fr; gap: 0; }
   /* На телефоне: заголовок, текст, окно чата, потом кнопки */
   .chat__text { display: contents; }
