@@ -23,8 +23,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Golos+Text:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=6">
-  <script src="app.js?v=6" defer></script>
+  <link rel="stylesheet" href="styles.css?v=7">
+  <script src="app.js?v=7" defer></script>
   <script src="tweak-panel.js" defer></script>
 </head>
 <body>
@@ -70,17 +70,28 @@
         </div>
       </div>
       <div class="swimmer" aria-hidden="true">
-        <svg viewBox="0 0 400 110" width="380" height="105" fill="#e9f1ee">
-          <g class="swimmer__tail"><path d="M330 47 C350 39 372 22 398 6 C390 30 378 47 362 57 C375 65 387 75 394 88 C372 81 350 73 330 66 Z"/></g>
+        <svg viewBox="0 0 420 112" width="380" height="101" fill="#e9f1ee">
+          <defs>
+            <linearGradient id="sw-skin" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#5f8c85"/><stop offset=".45" stop-color="#9fc0b9"/><stop offset=".72" stop-color="#dbe8e4"/><stop offset="1" stop-color="#f3f7f5"/>
+            </linearGradient>
+            <linearGradient id="sw-fin" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#8fb3ab"/><stop offset="1" stop-color="#cfe0db" stop-opacity=".75"/>
+            </linearGradient>
+          </defs>
+          <g class="swimmer__tail"><path fill="url(#sw-fin)" d="M348 52 C368 44 392 22 418 6 C412 24 402 42 386 58 C398 68 406 78 408 90 C390 84 368 74 348 68 Z"/></g>
           <g class="swimmer__body">
-            <path d="M262 40 L284 20 L294 42 Z"/>
-            <path d="M96 74 L118 94 L126 77 Z"/>
-            <path d="M200 79 L214 93 L223 79 Z"/>
-            <path d="M250 76 L265 89 L273 74 Z"/>
-            <path d="M6 62 C30 52 60 44 100 40 C150 34 220 34 280 40 C300 42 318 44 334 48 L334 66 C312 70 290 74 260 76 C200 81 140 81 100 77 C60 73 30 68 6 62 Z"/>
-            <g class="swimmer__scutes"><path d="M112 39 l7 -7 l7 7z"/><path d="M132 37 l7 -7 l7 7z"/><path d="M152 36 l7 -7 l7 7z"/><path d="M172 35 l7 -7 l7 7z"/><path d="M192 35 l7 -7 l7 7z"/><path d="M212 35 l7 -7 l7 7z"/><path d="M232 36 l7 -7 l7 7z"/><path d="M252 38 l7 -7 l7 7z"/></g>
-            <g class="swimmer__mark"><path d="M110 58 l5 -3 l5 3 l-5 3z"/><path d="M130 58 l5 -3 l5 3 l-5 3z"/><path d="M150 58 l5 -3 l5 3 l-5 3z"/><path d="M170 58 l5 -3 l5 3 l-5 3z"/><path d="M190 58 l5 -3 l5 3 l-5 3z"/><path d="M210 58 l5 -3 l5 3 l-5 3z"/><path d="M230 58 l5 -3 l5 3 l-5 3z"/><path d="M250 58 l5 -3 l5 3 l-5 3z"/><path d="M270 58 l5 -3 l5 3 l-5 3z"/><path d="M290 58 l5 -3 l5 3 l-5 3z"/><path d="M86 45 C93 56 93 66 86 75" fill="none" stroke-width="2.5"/><circle cx="68" cy="53" r="4"/></g>
-            <path class="swimmer__barbel" d="M40 66 L35 80 M47 68 L45 83" fill="none" stroke-width="2" stroke-linecap="round"/>
+            <path fill="url(#sw-fin)" d="M286 39 C292 27 300 18 314 13 C311 25 311 35 316 45 Z"/>
+            <path fill="url(#sw-fin)" d="M282 77 C288 87 296 93 307 96 C305 88 305 80 307 73 Z"/>
+            <path fill="url(#sw-fin)" d="M212 81 C218 89 226 94 237 96 C235 88 235 82 237 79 Z"/>
+            <path fill="url(#sw-skin)" d="M4 66 C20 60 44 52 70 48 C90 45 110 40 140 37 C200 31 260 33 300 40 C322 44 340 50 352 54 L352 66 C330 70 300 76 260 79 C200 84 140 84 100 80 C80 78 66 76 54 74 C36 72 18 70 4 66 Z"/>
+            <path fill="url(#sw-fin)" d="M92 74 C104 88 120 98 142 103 C135 93 129 84 129 75 Z"/>
+            <g fill="#d9e7e3"><path d="M113 42.5 q5 -9 10 0 q-5 3 -10 0z"/><path d="M130 39.8 q5 -9 10 0 q-5 3 -10 0z"/><path d="M147 38.2 q5 -9 10 0 q-5 3 -10 0z"/><path d="M164 37.1 q5 -9 10 0 q-5 3 -10 0z"/><path d="M181 35.9 q5 -9 10 0 q-5 3 -10 0z"/><path d="M198 35.1 q5 -9 10 0 q-5 3 -10 0z"/><path d="M215 35.7 q5 -9 10 0 q-5 3 -10 0z"/><path d="M232 36.2 q5 -9 10 0 q-5 3 -10 0z"/><path d="M249 36.8 q5 -9 10 0 q-5 3 -10 0z"/><path d="M266 38.4 q5 -9 10 0 q-5 3 -10 0z"/><path d="M283 40.5 q5 -9 10 0 q-5 3 -10 0z"/></g>
+            <g fill="#4f7a74" opacity=".42"><ellipse cx="104" cy="61.0" rx="3.4" ry="2.1"/><ellipse cx="122" cy="60.7" rx="3.4" ry="2.1"/><ellipse cx="140" cy="60.5" rx="3.4" ry="2.1"/><ellipse cx="158" cy="60.3" rx="3.4" ry="2.1"/><ellipse cx="176" cy="60.1" rx="3.4" ry="2.1"/><ellipse cx="194" cy="59.9" rx="3.4" ry="2.1"/><ellipse cx="212" cy="59.7" rx="3.4" ry="2.1"/><ellipse cx="230" cy="59.4" rx="3.4" ry="2.1"/><ellipse cx="248" cy="59.2" rx="3.4" ry="2.1"/><ellipse cx="266" cy="59.0" rx="3.4" ry="2.1"/><ellipse cx="284" cy="58.8" rx="3.4" ry="2.1"/><ellipse cx="302" cy="58.6" rx="3.4" ry="2.1"/><ellipse cx="320" cy="58.4" rx="3.4" ry="2.1"/><ellipse cx="338" cy="58.1" rx="3.4" ry="2.1"/></g>
+            <g fill="#b7cfca" opacity=".8"><ellipse cx="120" cy="74.0" rx="3" ry="1.8"/><ellipse cx="142" cy="74.0" rx="3" ry="1.8"/><ellipse cx="164" cy="74.0" rx="3" ry="1.8"/><ellipse cx="186" cy="74.0" rx="3" ry="1.8"/><ellipse cx="208" cy="73.8" rx="3" ry="1.8"/><ellipse cx="230" cy="73.4" rx="3" ry="1.8"/><ellipse cx="252" cy="73.0" rx="3" ry="1.8"/><ellipse cx="274" cy="72.5" rx="3" ry="1.8"/><ellipse cx="296" cy="72.1" rx="3" ry="1.8"/></g>
+            <path d="M84 50 C94 58 96 70 88 80" fill="none" stroke="#4f7a74" stroke-width="2" stroke-linecap="round" opacity=".7"/>
+            <circle cx="58" cy="56" r="3.4" fill="#0b2f33"/><circle cx="57" cy="55" r="1" fill="#f3f7f5"/>
+            <path d="M24 70 l-2 9 M31 71 l-1 9 M38 72 l0 9 M45 73 l1 8" fill="none" stroke="#dbe8e4" stroke-width="1.6" stroke-linecap="round"/>
           </g>
         </svg>
       </div>

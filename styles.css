@@ -103,13 +103,10 @@ button { font: inherit; color: inherit; }
 /* Осётр в профиль: на телефоне проплывает справа налево, пока листают вниз */
 .swimmer { position: absolute; z-index: 0; left: 0; bottom: 110px; width: clamp(240px, 72vw, 380px); will-change: transform; transform: translateX(110vw); pointer-events: none; }
 .swimmer svg { display: block; width: 100%; height: auto; overflow: visible; }
-.swimmer__body, .swimmer__tail { fill: var(--color-text); }
-.swimmer__scutes { fill: var(--color-muted); }
-.swimmer__mark { fill: var(--color-bg); stroke: var(--color-bg); }
-.swimmer__barbel { stroke: var(--color-text); }
-.swimmer__tail { transform-origin: 332px 57px; animation: tail .7s ease-in-out infinite alternate; }
+.swimmer svg { filter: drop-shadow(0 10px 14px rgba(4, 22, 24, .35)); }
+.swimmer__tail { transform-origin: 350px 60px; animation: tail .7s ease-in-out infinite alternate; }
 .swimmer__body { transform-origin: 200px 60px; animation: body-sway 1.4s ease-in-out infinite alternate; }
-@keyframes tail { from { transform: rotate(-9deg) skewY(-4deg); } to { transform: rotate(9deg) skewY(4deg); } }
+@keyframes tail { from { transform: rotate(-7deg) skewY(-3deg); } to { transform: rotate(7deg) skewY(3deg); } }
 @keyframes body-sway { from { transform: rotate(-1deg); } to { transform: rotate(1deg); } }
 
 /* Своё пожелание под прайсом */
