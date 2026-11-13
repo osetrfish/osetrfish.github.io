@@ -60,8 +60,15 @@ button { font: inherit; color: inherit; }
 .mark__fish { width: 46px; height: auto; }
 .hero__inner { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(0, .75fr); column-gap: clamp(32px, 5vw, 80px); align-items: start; }
 .hero__inner > * { grid-column: 1; }
-.hero__fish { grid-column: 2; grid-row: 1 / span 5; align-self: center; width: 100%; max-width: 440px; height: auto; justify-self: end; animation: swim 7s ease-in-out infinite; }
+.hero__fish { grid-column: 2; grid-row: 1 / span 5; align-self: center; justify-self: end; position: relative; width: 100%; max-width: 440px; animation: fish-in 1.8s cubic-bezier(.16, .84, .3, 1) both; }
+.hero__fish img { width: 100%; height: auto; animation: swim 7s ease-in-out 1.8s infinite; }
+/* Пузырьки поднимаются от носа осетра */
+.bubble { position: absolute; left: 6%; top: 72%; width: 12px; height: 12px; border-radius: 50%; box-shadow: inset 0 0 0 1.5px var(--color-text); opacity: 0; animation: bubble 3.6s ease-out infinite; }
+.bubble:nth-of-type(2) { left: 10%; width: 8px; height: 8px; animation-delay: 1.2s; }
+.bubble:nth-of-type(3) { left: 3%; width: 6px; height: 6px; animation-delay: 2.4s; }
+@keyframes fish-in { from { transform: translateX(60vw); opacity: 0; } 30% { opacity: 1; } to { transform: none; opacity: 1; } }
 @keyframes swim { 50% { transform: translate(-10px, 8px) rotate(-1.5deg); } }
+@keyframes bubble { 0% { transform: translate(0, 0) scale(.5); opacity: 0; } 15% { opacity: .8; } 100% { transform: translate(-14px, -110px) scale(1.1); opacity: 0; } }
 .hero { position: relative; padding: clamp(40px, 8vh, 96px) var(--gutter) clamp(140px, 22vh, 220px); }
 .hero__since { color: var(--color-muted); margin-bottom: 20px; }
 .hero h1 { font-size: clamp(38px, 5.6vw, 84px); max-width: 14ch; letter-spacing: -.03em; }
@@ -167,7 +174,9 @@ button { font: inherit; color: inherit; }
 @media (max-width: 900px) {
   .nav { display: none; }
   .hero__inner { display: block; }
-  .hero__fish { display: block; width: 170px; margin: 0 -6px 16px auto; animation: none; }
+  .hero { padding-bottom: calc(48vw + 120px); overflow: hidden; }
+  .hero__fish { position: absolute; z-index: 0; right: -12vw; bottom: clamp(80px, 20vw, 120px); width: 84vw; max-width: 520px; }
+  .hero__fish img { animation-duration: 5s; }
   .good__buy { grid-column: auto; }
   .cart-btn { margin-left: auto; }
   .price__head { grid-template-columns: 1fr; }
@@ -187,3 +196,6 @@ button { font: inherit; color: inherit; }
   .chat__actions .btn { flex: 1 1 100%; }
 }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
+/* Осётр вплывает, когда первый экран с ним виден (на телефоне он ниже кнопок) */
+.js .hero__fish { animation-play-state: paused; }
+.js .hero__fish.is-in { animation-play-state: running; }

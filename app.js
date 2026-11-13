@@ -208,5 +208,18 @@ function toast(msg, withCart) {
   toastTimer = setTimeout(() => el.classList.remove('is-on'), withCart ? 2200 : 4000);
 }
 
+// Осётр на первом экране вплывает, когда низ первого экрана (волна) попадает в кадр:
+// сам осётр до начала анимации стоит за краем экрана, поэтому следим за волной.
+const fish = $('.hero__fish');
+const fishMark = $('.wave--hero');
+if (fish && fishMark && 'IntersectionObserver' in window) {
+  document.documentElement.classList.add('js');
+  const go = () => fish.classList.add('is-in');
+  new IntersectionObserver((entries, io) => {
+    if (entries[0].isIntersecting) { go(); io.disconnect(); }
+  }).observe(fishMark);
+  if (matchMedia('(min-width: 901px)').matches) setTimeout(go, 1200);
+}
+
 renderGoods();
 renderCart();
