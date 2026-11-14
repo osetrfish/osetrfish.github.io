@@ -23,8 +23,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Golos+Text:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=8">
-  <script src="app.js?v=8" defer></script>
+  <link rel="stylesheet" href="styles.css?v=9">
+  <script src="app.js?v=9" defer></script>
   <script src="tweak-panel.js" defer></script>
 </head>
 <body>
@@ -101,6 +101,24 @@
           <button type="button" data-wish-chip>Подарочный набор</button>
         </div>
       </form>
+    </section>
+
+    <section class="real" id="real" aria-labelledby="real-title">
+      <div class="real__head">
+        <h2 id="real-title">Как выглядит наш осётр</h2>
+        <p>Это не картинки из интернета, а наши снимки: коптильня, нарезка, икра.</p>
+      </div>
+      <div class="real__grid">
+        <figure class="tile tile--video">
+          <video src="images/real/koptilnya.mp4" poster="images/real/koptilnya-3.jpg" muted loop playsinline preload="none" aria-label="Видео: осётр в коптильне" data-autoplay></video>
+          <figcaption>Коптильня</figcaption>
+        </figure>
+        <figure class="tile tile--big"><img src="images/real/narezka-sverhu.jpg" alt="Копчёный осётр порциями, сверху" width="950" height="1200" loading="lazy"><figcaption>Порционная нарезка</figcaption></figure>
+        <figure class="tile tile--tall"><img src="images/real/koptilnya-4.jpg" alt="Осётры висят в коптильне" width="900" height="1200" loading="lazy"><figcaption>Осётр в коптильне</figcaption></figure>
+        <figure class="tile"><img src="images/real/ikra-sito.jpg" alt="Икра стерляди на сите" width="720" height="883" loading="lazy"><figcaption>Икра стерляди</figcaption></figure>
+        <figure class="tile"><img src="images/real/zhivoy-osetr.jpg" alt="Живой осётр в руках" width="734" height="1200" loading="lazy" style="object-position: 50% 30%"><figcaption>Живой осётр</figcaption></figure>
+        <figure class="tile tile--wide"><img src="images/real/narezka-2.jpg" alt="Копчёный осётр порциями на бумаге" width="900" height="1200" loading="lazy" style="object-position: 50% 55%"><figcaption>Готово к столу</figcaption></figure>
+      </div>
     </section>
 
     <section class="how" id="how" aria-labelledby="how-title">

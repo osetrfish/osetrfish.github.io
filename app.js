@@ -6,9 +6,9 @@ const TELEGRAM_USERNAME = '';
 
 // step — шаг выбора: рыба по 0,5 кг, икра банками по 100 г (price — за одну единицу шага × 1).
 const GOODS = [
-  { id: 'osetr', name: 'Осётр копчёный', price: 3300, per: 'кг', unit: 'кг', step: 0.5, min: 0.5, note: 'На вес, от 0,5 кг', img: 'images/osetr.jpg', alt: 'Копчёный осётр: целый кусок и ломтики на тёмной доске' },
+  { id: 'osetr', name: 'Осётр копчёный', price: 3300, per: 'кг', unit: 'кг', step: 0.5, min: 0.5, note: 'На вес, от 0,5 кг', img: 'images/real/narezka-4.jpg', pos: '50% 78%', alt: 'Копчёный осётр, нарезанный порциями, рядом укроп и помидоры' },
   { id: 'balyk', name: 'Балык осетровый', price: 5500, per: 'кг', unit: 'кг', step: 0.5, min: 0.5, note: 'На вес, от 0,5 кг', img: 'images/balyk.jpg', alt: 'Балык осетровый ломтиками на тёмной доске' },
-  { id: 'ikra', name: 'Икра стерляди', price: 4400, per: '100 г', unit: 'банка', step: 1, min: 1, note: 'Банка 100 г', img: 'images/ikra.jpg', alt: 'Открытая банка икры стерляди OSETR FISH и ложка с икрой' },
+  { id: 'ikra', name: 'Икра стерляди', price: 4400, per: '100 г', unit: 'банка', step: 1, min: 1, note: 'Банка 100 г', img: 'images/real/ikra-banka.jpg', pos: '50% 45%', alt: 'Икра стерляди в банке, рядом ложка' },
 ];
 
 const STORE_KEY = 'osetr-cart';
@@ -60,7 +60,7 @@ const picked = Object.fromEntries(GOODS.map((g) => [g.id, g.min]));
 function renderGoods() {
   $('[data-goods]').innerHTML = GOODS.map((g) => `
     <li class="good" data-id="${g.id}">
-      <img class="good__photo" src="${g.img}" alt="${g.alt}" width="300" height="168" loading="lazy" decoding="async">
+      <img class="good__photo" src="${g.img}" alt="${g.alt}" width="300" height="168" loading="lazy" decoding="async"${g.pos ? ` style="object-position: ${g.pos}"` : ''}>
       <div><h3 class="good__name">${g.name}</h3><p class="good__unit">${g.note}</p></div>
       <p class="good__price">${g.price.toLocaleString('ru-RU')} ₽<small>/${g.per}</small></p>
       <div class="good__buy">
@@ -267,6 +267,16 @@ if (fish && fishMark && 'IntersectionObserver' in window) {
     if (entries[0].isIntersecting) { go(); io.disconnect(); }
   }).observe(fishMark);
   if (matchMedia('(min-width: 901px)').matches) setTimeout(go, 1200);
+}
+
+// Видео из коптильни играет без звука, только пока его видно на экране.
+const clip = $('[data-autoplay]');
+if (clip && 'IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  new IntersectionObserver(([e]) => {
+    if (e.isIntersecting) clip.play().catch(() => {}); else clip.pause();
+  }, { threshold: 0.3 }).observe(clip);
+} else if (clip) {
+  clip.controls = true;
 }
 
 renderGoods();
