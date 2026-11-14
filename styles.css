@@ -130,11 +130,11 @@ button { font: inherit; color: inherit; }
 .real__nav { display: flex; gap: 10px; }
 .real__nav .icon-btn { width: 52px; height: 52px; box-shadow: inset 0 0 0 1.5px var(--color-line); color: var(--color-text); transition: background-color .15s, box-shadow .15s; }
 .real__nav .icon-btn:hover { background: rgba(233, 241, 238, .08); box-shadow: inset 0 0 0 1.5px var(--color-text); }
-.strip { list-style: none; margin: 0; padding: 0 var(--gutter) 8px; display: grid; grid-auto-flow: column; grid-auto-columns: clamp(240px, 24vw, 320px); gap: 24px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--gutter); scrollbar-width: none; overscroll-behavior-x: contain; }
+.strip { list-style: none; margin: 0 var(--gutter); padding: 0 0 8px; display: grid; grid-auto-flow: column; grid-auto-columns: calc((100% - 72px) / 4); gap: 24px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; overscroll-behavior-x: contain; }
 .strip::-webkit-scrollbar { display: none; }
 .card { scroll-snap-align: start; }
 .card figure { margin: 0; }
-.card__media { aspect-ratio: 3 / 4; overflow: hidden; border-radius: 18px; background: var(--color-bg); }
+.card__media { aspect-ratio: 3 / 4; overflow: hidden; border-radius: 18px; background: var(--color-bg); cursor: zoom-in; }
 .card__media img, .card__media video { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .7s var(--ease); }
 /* Фото чуть приближаются: мышкой при наведении, на телефоне при касании */
 @media (hover: hover) {
@@ -144,6 +144,23 @@ button { font: inherit; color: inherit; }
 .card figcaption { display: grid; gap: 4px; padding: 16px 4px 0; }
 .card figcaption b { font: 700 18px/1.2 var(--font-display); letter-spacing: -.01em; }
 .card figcaption span { color: var(--color-muted); font-size: 15px; }
+
+/* Просмотр фото крупно */
+.lightbox { width: 100vw; height: 100dvh; max-width: none; max-height: none; margin: 0; padding: 0; border: 0; background: transparent; color: var(--color-text); }
+.lightbox[open] { display: grid; place-items: center; animation: lb-in .25s var(--ease); }
+.lightbox::backdrop { background: rgba(4, 20, 22, .94); }
+@keyframes lb-in { from { opacity: 0; transform: scale(.96); } }
+.lightbox__stage { margin: 0; display: grid; justify-items: center; gap: 14px; padding: 64px 88px 24px; }
+.lightbox__media img, .lightbox__media video { display: block; max-width: min(92vw, 960px); max-height: calc(100dvh - 150px); width: auto; height: auto; border-radius: 14px; }
+.lightbox figcaption { text-align: center; display: grid; gap: 2px; }
+.lightbox figcaption b { font: 700 20px/1.2 var(--font-display); }
+.lightbox figcaption span { color: var(--color-muted); font-size: 15px; }
+.lightbox .icon-btn { position: fixed; width: 52px; height: 52px; color: var(--color-text); background: rgba(233, 241, 238, .1); }
+.lightbox .icon-btn:hover { background: rgba(233, 241, 238, .2); }
+.lightbox__close { top: 16px; right: 16px; }
+.lightbox__nav { top: 50%; transform: translateY(-50%); }
+.lightbox__nav--prev { left: 20px; }
+.lightbox__nav--next { right: 20px; }
 
 /* Как заказать */
 .how { padding: var(--space-section) var(--gutter); }
@@ -214,6 +231,7 @@ button { font: inherit; color: inherit; }
 
 /* Телефон */
 @media (max-width: 1100px) {
+  .strip { grid-auto-columns: calc((100% - 48px) / 3); }
   .good { grid-template-columns: 180px minmax(0, 1fr) var(--price-w); }
   .good__buy { grid-column: 2 / -1; justify-content: flex-start; }
   .good__buy .btn { flex: 0 1 auto; }
@@ -246,7 +264,12 @@ button { font: inherit; color: inherit; }
   .wish { grid-template-columns: 1fr; padding: 24px 20px; margin-top: 40px; }
   .real__head { margin-bottom: 28px; }
   .real__nav { display: none; }
-  .strip { grid-auto-columns: 70vw; gap: 14px; }
+  .strip { margin: 0; padding: 0 var(--gutter) 8px; scroll-padding-inline: var(--gutter); grid-auto-columns: 70vw; gap: 14px; }
+  .lightbox__stage { padding: 72px 12px 96px; }
+  .lightbox__media img, .lightbox__media video { max-width: calc(100vw - 24px); max-height: calc(100dvh - 220px); }
+  .lightbox__nav { top: auto; bottom: 24px; transform: none; }
+  .lightbox__nav--prev { left: calc(50% - 64px); }
+  .lightbox__nav--next { right: calc(50% - 64px); }
   .wish__row { grid-template-columns: 1fr; }
   .chat { grid-template-columns: 1fr; gap: 0; }
   /* На телефоне: заголовок, текст, окно чата, потом кнопки */

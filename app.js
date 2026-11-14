@@ -293,5 +293,51 @@ if (clip && 'IntersectionObserver' in window && !matchMedia('(prefers-reduced-mo
   clip.controls = true;
 }
 
+// Фото и видео из ленты открываются крупно, целиком, со стрелками и клавишами.
+const lb = $('[data-lightbox]');
+const lbCards = [...document.querySelectorAll('.card')];
+let lbIndex = 0;
+function lbShow(i) {
+  lbIndex = (i + lbCards.length) % lbCards.length;
+  const card = lbCards[lbIndex];
+  const src = card.querySelector('img, video');
+  const box = $('[data-lb-media]');
+  box.innerHTML = '';
+  if (src.tagName === 'VIDEO') {
+    const v = document.createElement('video');
+    Object.assign(v, { src: src.getAttribute('src'), poster: src.getAttribute('poster'), controls: true, autoplay: true, loop: true, playsInline: true });
+    box.append(v);
+  } else {
+    const img = document.createElement('img');
+    Object.assign(img, { src: src.getAttribute('src'), alt: src.alt });
+    box.append(img);
+  }
+  $('[data-lb-caption]').innerHTML = card.querySelector('figcaption').innerHTML;
+}
+function lbOpen(card) {
+  if (!lb || !lb.showModal) return;
+  lbShow(lbCards.indexOf(card));
+  lb.showModal();
+}
+if (lb) {
+  document.addEventListener('click', (e) => {
+    const opener = e.target.closest('[data-lb-open]');
+    if (opener) { lbOpen(opener.closest('.card')); return; }
+    if (!lb.open) return;
+    const nav = e.target.closest('[data-lb]');
+    if (nav) { lbShow(lbIndex + Number(nav.dataset.lb)); return; }
+    if (e.target.closest('[data-lb-close]') || e.target === lb || e.target.closest('.lightbox__stage') === null && !e.target.closest('.icon-btn')) lb.close();
+  });
+  document.addEventListener('keydown', (e) => {
+    const opener = e.target.closest && e.target.closest('[data-lb-open]');
+    if (opener && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); lbOpen(opener.closest('.card')); return; }
+    if (!lb.open) return;
+    if (e.key === 'ArrowRight') lbShow(lbIndex + 1);
+    if (e.key === 'ArrowLeft') lbShow(lbIndex - 1);
+  });
+  // Закрыли — останавливаем видео.
+  lb.addEventListener('close', () => { $('[data-lb-media]').innerHTML = ''; });
+}
+
 renderGoods();
 renderCart();
