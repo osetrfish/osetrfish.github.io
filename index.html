@@ -23,8 +23,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Golos+Text:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=12">
-  <script src="app.js?v=12" defer></script>
+  <link rel="stylesheet" href="styles.css?v=13">
+  <script src="app.js?v=13" defer></script>
   <script src="tweak-panel.js" defer></script>
 </head>
 <body>
@@ -34,6 +34,8 @@
     <symbol id="i-chat" viewBox="0 0 24 24"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></symbol>
     <symbol id="i-send" viewBox="0 0 24 24"><path d="M14.54 21.69a.5.5 0 0 0 .94-.03l6.5-19a.5.5 0 0 0-.64-.64l-19 6.5a.5.5 0 0 0-.03.94l7.93 3.18a2 2 0 0 1 1.11 1.11z"/><path d="m21.85 2.15-10.94 10.94"/></symbol>
     <symbol id="i-checks" viewBox="0 0 24 24"><path d="M18 6 7 17l-5-5"/><path d="m22 10-7.5 7.5L13 16"/></symbol>
+    <symbol id="i-arrow-left" viewBox="0 0 24 24"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></symbol>
+    <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></symbol>
     <symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
     <symbol id="i-plus" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5v14"/></symbol>
     <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></symbol>
@@ -105,20 +107,59 @@
 
     <section class="real" id="real" aria-labelledby="real-title">
       <div class="real__head">
-        <h2 id="real-title">Как выглядит наш осётр</h2>
-        <p>Это не картинки из интернета, а наши снимки: коптильня, нарезка, икра.</p>
+        <div>
+          <h2 id="real-title">Как выглядит наш осётр</h2>
+          <p>Не картинки из интернета, а наши снимки: коптильня, балык, икра.</p>
+        </div>
+        <div class="real__nav">
+          <button class="icon-btn" type="button" data-strip="-1" aria-label="Назад"><svg class="ic"><use href="#i-arrow-left"/></svg></button>
+          <button class="icon-btn" type="button" data-strip="1" aria-label="Вперёд"><svg class="ic"><use href="#i-arrow-right"/></svg></button>
+        </div>
       </div>
-      <div class="real__grid">
-        <figure class="tile tile--video">
-          <video src="images/real/koptilnya.mp4" poster="images/real/koptilnya-3.jpg" muted loop playsinline preload="none" aria-label="Видео: осётр в коптильне" data-autoplay></video>
-          <figcaption>Коптильня</figcaption>
-        </figure>
-        <figure class="tile tile--big"><img src="images/real/narezka-sverhu.jpg" alt="Балык осетровый порциями, вид сверху" width="950" height="1200" loading="lazy"><figcaption>Балык осетровый</figcaption></figure>
-        <figure class="tile tile--tall"><img src="images/real/koptilnya-4.jpg" alt="Осётры висят в коптильне" width="900" height="1200" loading="lazy"><figcaption>Осётр в коптильне</figcaption></figure>
-        <figure class="tile"><img src="images/real/ikra-sito.jpg" alt="Икра стерляди на сите" width="720" height="883" loading="lazy"><figcaption>Икра стерляди</figcaption></figure>
-        <figure class="tile"><img src="images/real/zhivoy-osetr.jpg" alt="Живой осётр в руках" width="734" height="1200" loading="lazy" style="object-position: 50% 30%"><figcaption>Живой осётр</figcaption></figure>
-        <figure class="tile tile--wide"><img src="images/real/narezka-2.jpg" alt="Балык осетровый порциями с укропом и помидорами" width="900" height="1200" loading="lazy" style="object-position: 50% 55%"><figcaption>Балык к столу</figcaption></figure>
-      </div>
+      <ul class="strip" data-strip-track>
+          <li class="card">
+            <figure>
+              <div class="card__media"><video src="images/real/koptilnya.mp4" poster="images/real/koptilnya-3.jpg" muted loop playsinline preload="none" aria-label="Видео: осетры в коптильне" data-autoplay></video></div>
+              <figcaption><b>Коптильня</b><span>Видео, 9 секунд</span></figcaption>
+            </figure>
+          </li>
+          <li class="card">
+            <figure>
+              <div class="card__media"><img src="images/real/koptilnya-1.jpg" alt="Целые копчёные осетры висят в коптильне" width="900" height="1200" loading="lazy"></div>
+              <figcaption><b>Осётр копчёный</b><span>Целая рыба, около 2 кг</span></figcaption>
+            </figure>
+          </li>
+          <li class="card">
+            <figure>
+              <div class="card__media"><img src="images/real/narezka-sverhu.jpg" alt="Балык осетровый, нарезанный порциями, вид сверху" width="950" height="1200" loading="lazy"></div>
+              <figcaption><b>Балык осетровый</b><span>Нарезка порциями</span></figcaption>
+            </figure>
+          </li>
+          <li class="card">
+            <figure>
+              <div class="card__media"><img src="images/real/ikra-banka.jpg" alt="Икра стерляди в банке, рядом ложка" width="828" height="999" loading="lazy"></div>
+              <figcaption><b>Икра стерляди</b><span>Банка 100 г</span></figcaption>
+            </figure>
+          </li>
+          <li class="card">
+            <figure>
+              <div class="card__media"><img src="images/real/ikra-zerna.jpg" alt="Осетровая икра крупным планом" width="720" height="883" loading="lazy"></div>
+              <figcaption><b>Икра осетровая</b><span>Банка 100 г</span></figcaption>
+            </figure>
+          </li>
+          <li class="card">
+            <figure>
+              <div class="card__media"><img src="images/real/koptilnya-4.jpg" alt="Копчёные осетры крупным планом" width="900" height="1200" loading="lazy"></div>
+              <figcaption><b>После копчения</b><span>Золотистая кожа и жучки</span></figcaption>
+            </figure>
+          </li>
+          <li class="card">
+            <figure>
+              <div class="card__media"><img src="images/real/zhivoy-osetr.jpg" alt="Живой осётр в руках" width="734" height="1200" loading="lazy" style="object-position: 50% 45%"></div>
+              <figcaption><b>Живой осётр</b><span>Таким он бывает до копчения</span></figcaption>
+            </figure>
+          </li>
+      </ul>
     </section>
 
     <section class="how" id="how" aria-labelledby="how-title">

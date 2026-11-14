@@ -156,6 +156,13 @@ document.addEventListener('click', (e) => {
     what.form.elements.amount.focus();
     return;
   }
+  const arrow = e.target.closest('[data-strip]');
+  if (arrow) {
+    const track = $('[data-strip-track]');
+    const step = track.querySelector('.card').offsetWidth + 24;
+    track.scrollBy({ left: Number(arrow.dataset.strip) * step, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+    return;
+  }
   if (e.target.closest('[data-open-cart]')) { openCart(); return; }
   if (e.target.closest('[data-close-cart]')) { closeCart(); return; }
 
