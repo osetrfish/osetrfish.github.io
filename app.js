@@ -67,7 +67,7 @@ const picked = Object.fromEntries(GOODS.map((g) => [g.id, g.min]));
 function renderGoods() {
   $('[data-goods]').innerHTML = GOODS.map((g) => `
     <li class="good" data-id="${g.id}">
-      <img class="good__photo" src="${g.img}" alt="${g.alt}" width="300" height="168" decoding="async"${g.pos ? ` style="object-position: ${g.pos}"` : ''}>
+      <span class="good__photo"><img src="${g.img}" alt="${g.alt}" width="300" height="168" decoding="async"${g.pos ? ` style="object-position: ${g.pos}"` : ''}></span>
       <div><h3 class="good__name">${g.name}</h3><p class="good__unit">${g.note}</p></div>
       <p class="good__price">${g.price.toLocaleString('ru-RU')} ₽<small>/${g.per}</small></p>
       <div class="good__buy">
