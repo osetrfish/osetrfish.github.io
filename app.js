@@ -4,9 +4,9 @@
 const PHONE = '79627511999';
 const TELEGRAM_USERNAME = '';
 
-// step — шаг выбора: рыба по 0,5 кг, икра банками по 100 г (price — за одну единицу шага × 1).
+// step — шаг выбора: балык по 0,5 кг, икра банками по 100 г, осётр целыми рыбами (kgEach — примерный вес одной рыбы, цена за кг).
 const GOODS = [
-  { id: 'osetr', name: 'Осётр копчёный', price: 3300, per: 'кг', unit: 'кг', step: 0.5, min: 0.5, note: 'На вес, от 0,5 кг', img: 'images/real/koptilnya-1.jpg', pos: '50% 48%', alt: 'Целые копчёные осетры в коптильне' },
+  { id: 'osetr', name: 'Осётр копчёный', price: 3300, per: 'кг', unit: 'шт', kgEach: 2, step: 1, min: 1, note: 'Только целая рыба, около 2 кг', img: 'images/real/koptilnya-1.jpg', pos: '50% 48%', alt: 'Целые копчёные осетры в коптильне' },
   { id: 'balyk', name: 'Балык осетровый', price: 5500, per: 'кг', unit: 'кг', step: 0.5, min: 0.5, note: 'На вес, от 0,5 кг', img: 'images/real/narezka-4.jpg', pos: '50% 78%', alt: 'Балык осетровый, нарезанный порциями, рядом укроп и помидоры' },
   { id: 'ikra', name: 'Икра стерляди', price: 4400, per: '100 г', unit: 'банка', step: 1, min: 1, note: 'Банка 100 г', img: 'images/real/ikra-banka.jpg', pos: '50% 45%', alt: 'Икра стерляди в банке, рядом ложка' },
   { id: 'ikra-osetr', name: 'Икра осетровая', price: 4600, per: '100 г', unit: 'банка', step: 1, min: 1, note: 'Банка 100 г', img: 'images/real/ikra-zerna.jpg', pos: '50% 50%', alt: 'Осетровая икра крупным планом' },
@@ -17,7 +17,11 @@ const byId = Object.fromEntries(GOODS.map((g) => [g.id, g]));
 const rub = (n) => Math.round(n).toLocaleString('ru-RU') + ' ₽';
 const fmtQty = (g, q) => g.unit === 'кг'
   ? q.toLocaleString('ru-RU', { maximumFractionDigits: 1 }) + ' кг'
-  : q + ' × 100 г';
+  : g.unit === 'шт'
+    ? `${q} шт. (~${q * g.kgEach} кг)`
+    : q + ' × 100 г';
+// Сумма за количество: у целой рыбы — по примерному весу.
+const cost = (g, q) => g.price * q * (g.kgEach || 1);
 
 let cart = load();
 // Свои пожелания покупателя (то, чего нет в прайсе): строки текста, цену называет продавец.
@@ -27,7 +31,9 @@ let wishes = loadWishes();
 function load() {
   try {
     const raw = JSON.parse(localStorage.getItem(STORE_KEY) || '{}');
-    return Object.fromEntries(Object.entries(raw).filter(([id, q]) => byId[id] && q > 0));
+    // Старые корзины могли хранить осетра в килограммах, а он теперь продаётся целой рыбой.
+    return Object.fromEntries(Object.entries(raw).filter(([id, q]) => byId[id] && q > 0)
+      .map(([id, q]) => [id, byId[id].unit === 'шт' ? Math.max(1, Math.ceil(q)) : q]));
   } catch { return {}; }
 }
 function loadWishes() {
@@ -74,7 +80,7 @@ function renderGoods() {
 function renderCart() {
   const ids = Object.keys(cart);
   const count = ids.length + wishes.length;
-  const total = ids.reduce((s, id) => s + byId[id].price * cart[id], 0);
+  const total = ids.reduce((s, id) => s + cost(byId[id], cart[id]), 0);
 
   const badge = $('[data-count]');
   badge.hidden = count === 0;
@@ -87,7 +93,7 @@ function renderCart() {
     const g = byId[id];
     return `<li class="line" data-id="${id}">
       <span class="line__name">${g.name}</span>
-      <span class="line__sum">${rub(g.price * cart[id])}</span>
+      <span class="line__sum">${rub(cost(g, cart[id]))}</span>
       <span class="line__ctrl">${stepper(g, cart[id], 'data-qty')}</span>
       <button class="icon-btn" type="button" data-remove aria-label="Убрать ${g.name}">${icon('trash')}</button>
     </li>`;
@@ -178,12 +184,12 @@ document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !cartEl.
 // Текст заказа для мессенджера
 function orderText(items = cart, withForm = true, extra = wishes) {
   const ids = Object.keys(items);
-  const total = ids.reduce((s, id) => s + byId[id].price * items[id], 0);
+  const total = ids.reduce((s, id) => s + cost(byId[id], items[id]), 0);
   const name = withForm ? $('[data-name]').value.trim() : '';
   const comment = withForm ? $('[data-comment]').value.trim() : '';
   const lines = ids.map((id, i) => {
     const g = byId[id];
-    return `${i + 1}. ${g.name}: ${fmtQty(g, items[id])} = ${rub(g.price * items[id])}`;
+    return `${i + 1}. ${g.name}: ${fmtQty(g, items[id])} = ${rub(cost(g, items[id]))}`;
   });
   extra.forEach((w) => lines.push(`${lines.length + 1}. ${w} (уточнить цену)`));
   return [
