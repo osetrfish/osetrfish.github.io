@@ -2,18 +2,22 @@
 :root {
   --color-bg: #0f3a3f;        /* речная вода: первый экран, шаги, подвал */
   --color-deep: #0b2f33;      /* волна, нижний слой */
-  --color-ice: #eef3f1;       /* светлые секции: прайс, корзина */
+  --color-ice: #f4f1ec;       /* светлые секции: тёплый светлый фон, на нём еда выглядит аппетитнее */
   --color-text: #e9f1ee;      /* текст на воде */
   --color-ink: #10292c;       /* текст на светлом */
   --color-muted: #a6dccd;     /* приглушённый на воде */
   --color-muted-ink: #52696a; /* приглушённый на светлом */
   --color-line: #2c5a5e;
-  --color-line-ink: #cfdcd8;
+  --color-line-ink: #ddd7cd;
   --color-accent: #f2915e;    /* цвет балыка: главная кнопка и цены */
   --color-on-accent: #1a1410; /* текст на акценте */
   --color-accent-hover: #f6a77b;
   --color-photo: #efe9df;     /* подложка под фото, пока грузится */
   --color-read: #2f8f7a;      /* галочки «прочитано» в окне чата */
+  --color-wa: #0f7f72;        /* WhatsApp: узнаваемый зелёный, затемнён для читаемости */
+  --color-wa-hover: #0c6a5f;
+  --color-tg: #1a76b5;        /* Telegram: узнаваемый синий, затемнён для читаемости */
+  --color-tg-hover: #15639a;
   --font-display: "Unbounded", system-ui, sans-serif;
   --font-body: "Golos Text", system-ui, sans-serif;
   --space-section: clamp(72px, 10vw, 140px);
@@ -42,6 +46,11 @@ button { font: inherit; color: inherit; }
 .btn--ghost:hover { background: rgba(233, 241, 238, .08); }
 .btn--dark { background: var(--color-bg); color: var(--color-text); }
 .btn--dark:hover { background: #154a50; }
+/* Кнопки мессенджеров в их фирменных цветах: человек сразу узнаёт, куда уйдёт заказ */
+.btn--wa { background: var(--color-wa); color: #fff; }
+.btn--wa:hover { background: var(--color-wa-hover); }
+.btn--tg { background: var(--color-tg); color: #fff; }
+.btn--tg:hover { background: var(--color-tg-hover); }
 .icon-btn { display: grid; place-items: center; width: 44px; height: 44px; border: 0; border-radius: 50%; background: transparent; cursor: pointer; }
 .icon-btn:hover { background: rgba(16, 41, 44, .08); }
 
@@ -88,7 +97,7 @@ button { font: inherit; color: inherit; }
 .goods { list-style: none; padding: 0; margin: 0; border-top: 2px solid var(--color-ink); }
 .good__photo { display: block; width: 100%; aspect-ratio: 300 / 168; overflow: hidden; border-radius: var(--radius); background: var(--color-photo); }
 .good__photo img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s var(--ease); }
-.good { --price-w: 260px; display: grid; grid-template-columns: 180px minmax(0, 1fr) var(--price-w) 330px; gap: 16px 36px; align-items: center; padding: 32px 0; border-bottom: 1px solid var(--color-line-ink); }
+.good { --price-w: 240px; display: grid; grid-template-columns: 180px minmax(0, 1fr) var(--price-w) 360px; gap: 16px 36px; align-items: center; padding: 32px 0; border-bottom: 1px solid var(--color-line-ink); }
 .good__name { font: 700 clamp(24px, 2.6vw, 34px)/1.05 var(--font-display); letter-spacing: -.02em; }
 .good__unit { color: var(--color-muted-ink); margin-top: 8px; }
 .good__price { font: 500 clamp(30px, 3.3vw, 48px)/1 var(--font-display); letter-spacing: -.03em; white-space: nowrap; font-variant-numeric: tabular-nums; justify-self: start; }
@@ -98,7 +107,7 @@ button { font: inherit; color: inherit; }
 .stepper { display: inline-flex; align-items: center; height: 52px; border-radius: var(--radius); background: #fff; box-shadow: inset 0 0 0 1px var(--color-line-ink); }
 .stepper button { width: 44px; height: 52px; border: 0; background: transparent; cursor: pointer; display: grid; place-items: center; color: var(--color-ink); }
 .stepper button:disabled { opacity: .3; cursor: default; }
-.stepper output { min-width: 76px; text-align: center; font-weight: 600; font-variant-numeric: tabular-nums; }
+.stepper output { min-width: 76px; padding: 0 4px; text-align: center; font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
 .good .btn--accent.is-added { background: var(--color-bg); color: var(--color-text); }
 
 /* Телефон: пузырьки воздуха поднимаются от волны под кнопками */

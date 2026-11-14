@@ -23,8 +23,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Golos+Text:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=15">
-  <script src="app.js?v=15" defer></script>
+  <link rel="stylesheet" href="styles.css?v=17">
+  <script src="app.js?v=17" defer></script>
   <script src="tweak-panel.js" defer></script>
 </head>
 <body>
@@ -176,8 +176,8 @@
         <h2 id="contacts-title">Заказ уже написан за вас</h2>
         <p>Корзина сама собирает сообщение продавцу: что, сколько и на какую сумму. В окне чата видно, что придёт продавцу. Остаётся нажать «Отправить».</p>
         <div class="chat__actions">
-          <button class="btn btn--accent" type="button" data-send="wa"><svg class="ic"><use href="#i-chat"/></svg>Отправить в WhatsApp</button>
-          <button class="btn btn--ghost" type="button" data-send="tg"><svg class="ic"><use href="#i-send"/></svg>Отправить в Telegram</button>
+          <button class="btn btn--wa" type="button" data-send="wa"><svg class="ic"><use href="#i-chat"/></svg>Отправить в WhatsApp</button>
+          <button class="btn btn--tg" type="button" data-send="tg"><svg class="ic"><use href="#i-send"/></svg>Отправить в Telegram</button>
         </div>
       </div>
       <figure class="chat__window">
@@ -218,8 +218,8 @@
         <label class="field"><span>Как к вам обращаться</span><input type="text" name="name" autocomplete="given-name" data-name></label>
         <label class="field"><span>Комментарий: город, удобное время</span><textarea name="comment" rows="2" data-comment></textarea></label>
         <div class="cart__send">
-          <button class="btn btn--accent" type="button" data-send="wa"><svg class="ic"><use href="#i-chat"/></svg>Заказать в WhatsApp</button>
-          <button class="btn btn--dark" type="button" data-send="tg"><svg class="ic"><use href="#i-send"/></svg>Заказать в Telegram</button>
+          <button class="btn btn--wa" type="button" data-send="wa"><svg class="ic"><use href="#i-chat"/></svg>Заказать в WhatsApp</button>
+          <button class="btn btn--tg" type="button" data-send="tg"><svg class="ic"><use href="#i-send"/></svg>Заказать в Telegram</button>
         </div>
         <p class="cart__note">Сумма предварительная: рыбу взвешивают при сборке заказа.</p>
       </div>
