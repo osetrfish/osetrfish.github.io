@@ -6,9 +6,10 @@ const TELEGRAM_USERNAME = '';
 
 // step — шаг выбора: рыба по 0,5 кг, икра банками по 100 г (price — за одну единицу шага × 1).
 const GOODS = [
-  { id: 'osetr', name: 'Осётр копчёный', price: 3300, per: 'кг', unit: 'кг', step: 0.5, min: 0.5, note: 'На вес, от 0,5 кг', img: 'images/real/narezka-4.jpg', pos: '50% 78%', alt: 'Копчёный осётр, нарезанный порциями, рядом укроп и помидоры' },
-  { id: 'balyk', name: 'Балык осетровый', price: 5500, per: 'кг', unit: 'кг', step: 0.5, min: 0.5, note: 'На вес, от 0,5 кг', img: 'images/balyk.jpg', alt: 'Балык осетровый ломтиками на тёмной доске' },
+  { id: 'osetr', name: 'Осётр копчёный', price: 3300, per: 'кг', unit: 'кг', step: 0.5, min: 0.5, note: 'На вес, от 0,5 кг', img: 'images/real/koptilnya-1.jpg', pos: '50% 48%', alt: 'Целые копчёные осетры в коптильне' },
+  { id: 'balyk', name: 'Балык осетровый', price: 5500, per: 'кг', unit: 'кг', step: 0.5, min: 0.5, note: 'На вес, от 0,5 кг', img: 'images/real/narezka-4.jpg', pos: '50% 78%', alt: 'Балык осетровый, нарезанный порциями, рядом укроп и помидоры' },
   { id: 'ikra', name: 'Икра стерляди', price: 4400, per: '100 г', unit: 'банка', step: 1, min: 1, note: 'Банка 100 г', img: 'images/real/ikra-banka.jpg', pos: '50% 45%', alt: 'Икра стерляди в банке, рядом ложка' },
+  { id: 'ikra-osetr', name: 'Икра осетровая', price: 4600, per: '100 г', unit: 'банка', step: 1, min: 1, note: 'Банка 100 г', img: 'images/real/ikra-zerna.jpg', pos: '50% 50%', alt: 'Осетровая икра крупным планом' },
 ];
 
 const STORE_KEY = 'osetr-cart';
@@ -60,7 +61,7 @@ const picked = Object.fromEntries(GOODS.map((g) => [g.id, g.min]));
 function renderGoods() {
   $('[data-goods]').innerHTML = GOODS.map((g) => `
     <li class="good" data-id="${g.id}">
-      <img class="good__photo" src="${g.img}" alt="${g.alt}" width="300" height="168" loading="lazy" decoding="async"${g.pos ? ` style="object-position: ${g.pos}"` : ''}>
+      <img class="good__photo" src="${g.img}" alt="${g.alt}" width="300" height="168" decoding="async"${g.pos ? ` style="object-position: ${g.pos}"` : ''}>
       <div><h3 class="good__name">${g.name}</h3><p class="good__unit">${g.note}</p></div>
       <p class="good__price">${g.price.toLocaleString('ru-RU')} ₽<small>/${g.per}</small></p>
       <div class="good__buy">
