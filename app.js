@@ -6,10 +6,10 @@ const TELEGRAM_USERNAME = '';
 
 // step — шаг выбора: балык по 0,5 кг, икра банками по 100 г, осётр целыми рыбами (kgEach — примерный вес одной рыбы, цена за кг).
 const GOODS = [
-  { id: 'osetr', name: 'Осётр копчёный', price: 3300, per: 'кг', unit: 'шт', kgEach: 2, step: 1, min: 1, note: 'Только целая рыба, около 2 кг', img: 'images/real/koptilnya-1.jpg', pos: '50% 48%', alt: 'Целые копчёные осетры в коптильне' },
-  { id: 'balyk', name: 'Балык осетровый', price: 5500, per: 'кг', unit: 'кг', step: 0.5, min: 0.5, note: 'На вес, от 0,5 кг', img: 'images/real/narezka-4.jpg', pos: '50% 78%', alt: 'Балык осетровый, нарезанный порциями, рядом укроп и помидоры' },
-  { id: 'ikra', name: 'Икра стерляди', price: 4400, per: '100 г', unit: 'банка', step: 1, min: 1, note: 'Банка 100 г', img: 'images/real/ikra-banka.jpg', pos: '50% 45%', alt: 'Икра стерляди в банке, рядом ложка' },
-  { id: 'ikra-osetr', name: 'Икра осетровая', price: 4600, per: '100 г', unit: 'банка', step: 1, min: 1, note: 'Банка 100 г', img: 'images/real/ikra-zerna.jpg', pos: '50% 50%', alt: 'Осетровая икра крупным планом' },
+  { id: 'osetr', name: 'Осётр копчёный', price: 3300, per: 'кг', unit: 'шт', kgEach: 2, step: 1, min: 1, note: 'Только целая рыба, около 2 кг', img: 'images/real/koptilnya-2.jpg', pos: '50% 48%', alt: 'Копчёные осетры крупным планом: золотистые жучки на тёмной коже' },
+  { id: 'balyk', name: 'Балык осетровый', price: 5500, per: 'кг', unit: 'кг', step: 0.5, min: 0.5, note: 'На вес, от 0,5 кг', img: 'images/real/narezka-4.jpg', pos: '50% 76%', alt: 'Балык осетровый, нарезанный порциями, рядом укроп и помидоры' },
+  { id: 'ikra', name: 'Икра стерляди', price: 4400, per: '100 г', unit: 'банка', step: 1, min: 1, note: 'Банка 100 г', img: 'images/stock/ikra-chasha.jpg', pos: '50% 72%', alt: 'Чёрная икра в чаше с перламутровой ложкой' },
+  { id: 'ikra-osetr', name: 'Икра осетровая', price: 4600, per: '100 г', unit: 'банка', step: 1, min: 1, note: 'Банка 100 г', img: 'images/stock/ikra-podnos.jpg', pos: '50% 50%', alt: 'Порции чёрной икры на подносе' },
 ];
 
 const STORE_KEY = 'osetr-cart';
