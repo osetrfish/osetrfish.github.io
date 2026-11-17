@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /variants/
 
-Sitemap: https://osetrfish.github.io/sitemap.xml
+Sitemap: https://osetrfish.ru/sitemap.xml
