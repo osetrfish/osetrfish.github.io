@@ -23,8 +23,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Golos+Text:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=21">
-  <script src="app.js?v=21" defer></script>
+  <link rel="stylesheet" href="styles.css?v=22">
+  <script src="app.js?v=22" defer></script>
   <script src="tweak-panel.js" defer></script>
 </head>
 <body>
@@ -38,6 +38,7 @@
     <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></symbol>
     <symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
     <symbol id="i-plus" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5v14"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></symbol>
     <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></symbol>
     <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></symbol>
   </svg>
@@ -190,6 +191,17 @@
           <span class="chat__time">сейчас <svg class="ic"><use href="#i-checks"/></svg></span>
         </div>
       </figure>
+    </section>
+
+    <section class="where" id="where" aria-labelledby="where-title">
+      <div class="where__text">
+        <h2 id="where-title">Мы в Астрахани</h2>
+        <p>Работаем с 2020 года. Где забрать заказ и как доставить, договоримся в переписке.</p>
+        <a class="btn btn--ghost" href="https://yandex.ru/maps/?ll=48.0336%2C46.3479&amp;z=12&amp;text=%D0%90%D1%81%D1%82%D1%80%D0%B0%D1%85%D0%B0%D0%BD%D1%8C" target="_blank" rel="noopener"><svg class="ic"><use href="#i-pin"/></svg>Открыть в Яндекс Картах</a>
+      </div>
+      <div class="where__map">
+        <iframe src="https://yandex.ru/map-widget/v1/?ll=48.0336%2C46.3479&amp;z=11&amp;l=map&amp;pt=48.0336%2C46.3479%2Cpm2gnm" title="Астрахань на карте" loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
     </section>
   </main>
 
