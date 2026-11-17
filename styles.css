@@ -133,7 +133,10 @@ button { font: inherit; color: inherit; }
 .wish__chips { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; font-size: 14px; color: var(--color-muted); }
 .wish__chips button { min-height: 36px; padding: 0 14px; border: 0; border-radius: 999px; background: rgba(233, 241, 238, .1); cursor: pointer; font-size: 14px; transition: background-color .15s; }
 .wish__chips button:hover { background: rgba(233, 241, 238, .2); }
-.line__sum--muted { font-weight: 400; font-size: 14px; color: var(--color-muted-ink); }
+/* Своё пожелание: название во всю ширину, под ним пометка и корзина-удаление */
+.line__name { overflow-wrap: anywhere; }
+.line--wish .line__name { grid-column: 1 / -1; }
+.line__note { align-self: center; font-size: 14px; color: var(--color-muted-ink); }
 
 
 /* Настоящие фото и видео: лента вертикальных карточек, листается пальцем или стрелками */
@@ -237,8 +240,9 @@ button { font: inherit; color: inherit; }
 .line .icon-btn { width: 40px; height: 40px; color: var(--color-muted-ink); justify-self: end; }
 .cart__foot { margin-top: auto; padding-top: 20px; display: grid; gap: 14px; }
 .cart__foot[hidden] { display: none; }
-.cart__total { display: flex; justify-content: space-between; align-items: baseline; }
-.cart__total { gap: 16px; }
+.cart__total { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 4px 16px; }
+.cart__total small { flex-basis: 100%; text-align: right; font-size: 13px; color: var(--color-muted-ink); }
+.cart__total small[hidden] { display: none; }
 .cart__total b { font: 700 28px var(--font-display); letter-spacing: -.02em; white-space: nowrap; }
 .field { display: grid; gap: 6px; font-size: 14px; color: var(--color-muted-ink); }
 .field input, .field textarea { width: 100%; font: 16px/1.4 var(--font-body); color: var(--color-ink); background: #fff; border: 1px solid var(--color-line-ink); border-radius: 10px; padding: 12px 14px; resize: vertical; }

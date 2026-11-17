@@ -88,7 +88,8 @@ function renderCart() {
 
   $('[data-empty]').hidden = count > 0;
   $('[data-filled]').hidden = count === 0;
-  $('[data-total]').textContent = wishes.length ? `${rub(total)} + пожелания` : rub(total);
+  $('[data-total]').textContent = rub(total);
+  $('[data-total-note]').hidden = !wishes.length;
   $('[data-list]').innerHTML = ids.map((id) => {
     const g = byId[id];
     return `<li class="line" data-id="${id}">
@@ -98,9 +99,9 @@ function renderCart() {
       <button class="icon-btn" type="button" data-remove aria-label="Убрать ${g.name}">${icon('trash')}</button>
     </li>`;
   }).join('') + wishes.map((w, i) => `
-    <li class="line" data-wish="${i}">
+    <li class="line line--wish" data-wish="${i}">
       <span class="line__name">${esc(w)}</span>
-      <span class="line__sum line__sum--muted">цену назовёт продавец</span>
+      <span class="line__note">Своё пожелание, цену назовёт продавец</span>
       <button class="icon-btn" type="button" data-remove-wish aria-label="Убрать пожелание">${icon('trash')}</button>
     </li>`).join('');
 
