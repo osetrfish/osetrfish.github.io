@@ -268,6 +268,23 @@ button { font: inherit; color: inherit; }
 .foot__inner { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px 32px; align-items: center; }
 .foot .mark { color: var(--color-text); }
 .foot a { text-decoration: none; }
+.foot a:hover { color: var(--color-text); }
+.foot__addr, .foot__vk { display: inline-flex; align-items: center; gap: 8px; }
+.foot__vk .ic { width: 24px; height: 24px; }
+
+/* О нас */
+.about { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 48px 80px; padding: var(--space-section) var(--gutter) 0; }
+.about h2 { font-size: clamp(36px, 5vw, 64px); }
+.about__facts { margin: 40px 0 0; display: grid; gap: 20px; }
+.about__facts div { display: grid; gap: 2px; }
+.about__facts dt { font: 700 clamp(20px, 2vw, 26px)/1.2 var(--font-display); color: var(--color-accent); }
+.about__facts dd { margin: 0; color: var(--color-muted); }
+.about__text p { font-size: 19px; max-width: 52ch; margin: 0 0 20px; }
+.about__text .about__mission { font: 500 clamp(20px, 2vw, 24px)/1.4 var(--font-display); color: var(--color-text); margin: 32px 0; max-width: 34ch; }
+.ic--fill { fill: currentColor; stroke: none; }
+.where__text .where__addr { display: flex; align-items: center; gap: 10px; color: var(--color-text); font-size: 20px; margin: 20px 0 8px; }
+.where__text .where__addr + p { margin-top: 0; }
+.where__actions { display: flex; flex-wrap: wrap; gap: 12px; }
 
 /* Корзина */
 .cart { position: fixed; inset: 0; z-index: 50; }
@@ -351,6 +368,8 @@ button { font: inherit; color: inherit; }
   .product__actions .btn { flex: 1 1 100%; }
   .more__list { grid-template-columns: 1fr; }
   .where { grid-template-columns: 1fr; }
+  .about { grid-template-columns: 1fr; gap: 32px; }
+  .about__facts { margin-top: 28px; }
   .where__map { aspect-ratio: 4 / 3; }
   .chat { grid-template-columns: 1fr; gap: 0; }
   /* На телефоне: заголовок, текст, окно чата, потом кнопки */
