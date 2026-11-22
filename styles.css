@@ -188,6 +188,9 @@ button { font: inherit; color: inherit; }
 .product__grid { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: 32px 64px; align-items: start; }
 .product__photo { overflow: hidden; border-radius: 20px; background: var(--color-photo); aspect-ratio: 4 / 3; }
 .product__photo img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s var(--ease); }
+/* Фото, у которого предмет вплотную к краю: оставляем воздух вокруг кадра */
+.product__photo--fit { position: relative; isolation: isolate; }
+.product__photo--fit img { object-fit: contain; padding: 5%; border-radius: 28px; }
 @media (hover: hover) { .product__photo:hover img { transform: scale(1.05); } }
 .product h1 { font-size: clamp(36px, 4.6vw, 64px); }
 .product__price { margin-top: 20px; font: 500 clamp(36px, 4vw, 52px)/1 var(--font-display); letter-spacing: -.03em; }
