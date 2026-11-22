@@ -6,10 +6,10 @@ const TELEGRAM_USERNAME = '';
 
 // step — шаг выбора: балык по 0,5 кг, икра банками по 100 г, осётр целыми рыбами (kgEach — примерный вес одной рыбы, цена за кг).
 const GOODS = [
-  { id: 'osetr', slug: 'osetr-kopchenyj', name: 'Осётр копчёный', price: 3300, per: 'кг', unit: 'шт', kgEach: 2, step: 1, min: 1, note: 'Только целая рыба, около 2 кг', img: 'images/stock/osetr-blyudo.webp', pos: '50% 50%', alt: 'Целый копчёный осётр на стеклянном блюде с зеленью, лимоном и помидорами' },
-  { id: 'balyk', slug: 'balyk-osetrovyj', name: 'Балык осетровый', price: 5500, per: 'кг', unit: 'кг', step: 0.5, min: 0.5, note: 'На вес, от 0,5 кг', img: 'images/stock/balyk-doska.jpg', pos: '50% 50%', alt: 'Балык осетровый ломтиками на тёмной каменной доске с укропом' },
-  { id: 'ikra', slug: 'ikra-sterlyadi', name: 'Икра стерляди', price: 4400, per: '100 г', unit: 'банка', step: 1, min: 1, note: 'Банка 100 г', img: 'images/stock/ikra-banka-prais.jpg', pos: '45% 50%', alt: 'Икра стерляди в стеклянной банке с крышкой OSETR FISH' },
-  { id: 'ikra-osetr', slug: 'ikra-osetrovaya', name: 'Икра осетровая', price: 4600, per: '100 г', unit: 'банка', step: 1, min: 1, note: 'Банка 100 г', img: 'images/stock/ikra-podnos.jpg', pos: '50% 50%', alt: 'Порции осетровой икры на подносе' },
+  { id: 'osetr', slug: 'osetr-kopchenyj', name: 'Осётр копчёный', price: 3300, per: 'кг', unit: 'шт', kgEach: 2, step: 1, min: 1, note: 'Только целая рыба, около 2 кг', img: 'images/stock/osetr-blyudo.webp', ar: '841 / 567', pos: '50% 50%', alt: 'Целый копчёный осётр на стеклянном блюде с зеленью, лимоном и помидорами' },
+  { id: 'balyk', slug: 'balyk-osetrovyj', name: 'Балык осетровый', price: 5500, per: 'кг', unit: 'кг', step: 0.5, min: 0.5, note: 'На вес, от 0,5 кг', img: 'images/stock/balyk-doska.jpg', ar: '912 / 480', pos: '50% 50%', alt: 'Балык осетровый ломтиками на тёмной каменной доске с укропом' },
+  { id: 'ikra', slug: 'ikra-sterlyadi', name: 'Икра стерляди', price: 4400, per: '100 г', unit: 'банка', step: 1, min: 1, note: 'Банка 100 г', img: 'images/stock/ikra-banka-prais.jpg', ar: '912 / 576', pos: '45% 50%', alt: 'Икра стерляди в стеклянной банке с крышкой OSETR FISH' },
+  { id: 'ikra-osetr', slug: 'ikra-osetrovaya', name: 'Икра осетровая', price: 4600, per: '100 г', unit: 'банка', step: 1, min: 1, note: 'Банка 100 г', img: 'images/stock/ikra-podnos.jpg', ar: '900 / 600', pos: '50% 50%', alt: 'Порции осетровой икры на подносе' },
 ];
 
 const STORE_KEY = 'osetr-cart';
@@ -67,7 +67,7 @@ const picked = Object.fromEntries(GOODS.map((g) => [g.id, g.min]));
 function renderGoods() {
   $('[data-goods]').innerHTML = GOODS.map((g) => `
     <li class="good" data-id="${g.id}">
-      <span class="good__photo"><img src="${g.img}" alt="${g.alt}" width="300" height="168" decoding="async"${g.pos ? ` style="object-position: ${g.pos}"` : ''}></span>
+      <span class="good__photo" style="aspect-ratio: ${g.ar}"><img src="${g.img}" alt="${g.alt}" width="300" height="168" decoding="async"${g.pos ? ` style="object-position: ${g.pos}"` : ''}></span>
       <div><h3 class="good__name"><a href="/${g.slug}/">${g.name}</a></h3><p class="good__unit">${g.note}</p></div>
       <p class="good__price">${g.price.toLocaleString('ru-RU')} ₽<small>/${g.per}</small></p>
       <div class="good__buy">
