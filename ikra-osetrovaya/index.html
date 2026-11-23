@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <script>if (location.protocol === 'http:' && location.hostname === 'osetrfish.ru') location.replace('https://osetrfish.ru' + location.pathname + location.search + location.hash);</script>
+  <script>try{if(localStorage.getItem('osetr-theme')==='dark')document.documentElement.dataset.theme='dark'}catch(e){}</script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Осетровая икра купить в Астрахани, 4600 ₽ за 100 г | OSETR FISH</title>
   <meta name="description" content="Осетровая икра из Астрахани, банка 100 г за 4600 ₽. Заказ в WhatsApp и Telegram.">
@@ -25,8 +26,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Golos+Text:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/styles.css?v=41">
-  <script src="/product.js?v=41" defer></script>
+  <link rel="stylesheet" href="/styles.css?v=42">
+  <script src="/product.js?v=42" defer></script>
+  <script src="/theme.js?v=1" defer></script>
 </head>
 <body class="page-product">
   <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -42,6 +44,8 @@
     <symbol id="i-pin" viewBox="0 0 24 24"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></symbol>
     <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></symbol>
     <symbol id="i-vk" viewBox="0 0 24 24"><path d="M12.8 18C6.6 18 3.1 13.8 3 6.8h3.1c.1 5.1 2.3 7.3 4.1 7.7V6.8h2.9v4.4c1.8-.2 3.6-2.2 4.3-4.4h2.9c-.5 2.7-2.5 4.7-3.9 5.5 1.4.7 3.7 2.4 4.6 5.7h-3.2c-.7-2.2-2.4-3.9-4.7-4.1V18z"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></symbol>
     <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></symbol>
   </svg>
 
@@ -53,6 +57,7 @@
       <a href="/#how">Как заказать</a>
       <a href="/#contacts">Заказ в чате</a>
     </nav>
+    <button class="theme-btn" type="button" data-theme-toggle aria-label="Включить ночную тему" aria-pressed="false" title="Ночная тема"><svg class="ic i-moon"><use href="#i-moon"/></svg><svg class="ic i-sun"><use href="#i-sun"/></svg></button>
     <a class="cart-btn" href="/?cart=1" aria-label="Открыть корзину">
       <svg class="ic"><use href="#i-bag"/></svg>
       <span class="cart-btn__label">Корзина</span>
