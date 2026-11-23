@@ -78,11 +78,22 @@ button { font: inherit; color: inherit; }
 .nav a:hover { color: var(--color-text); }
 .cart-btn { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 16px; border: 0; border-radius: 999px; background: rgba(233, 241, 238, .1); cursor: pointer; transition: background-color .15s; }
 .cart-btn:hover { background: rgba(233, 241, 238, .18); }
-.theme-btn { display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 50%; background: rgba(233, 241, 238, .1); color: var(--color-text); cursor: pointer; transition: background-color .15s; }
-.theme-btn:hover { background: rgba(233, 241, 238, .18); }
-.theme-btn .i-sun { display: none; }
-:root[data-theme="dark"] .theme-btn .i-moon { display: none; }
-:root[data-theme="dark"] .theme-btn .i-sun { display: block; }
+.theme-btn { position: relative; width: 68px; height: 36px; padding: 0; border: 0; border-radius: 999px; background: var(--toggle-day); cursor: pointer; flex: none; overflow: hidden; box-shadow: inset 0 0 0 1.5px var(--toggle-ring); transition: background-color .45s var(--ease); }
+.theme-btn:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+.theme-btn__knob { position: absolute; top: 4px; left: 4px; width: 28px; height: 28px; border-radius: 50%; background: var(--color-accent); box-shadow: 0 0 0 4px var(--toggle-glow); overflow: hidden; transition: transform .5s var(--ease), background-color .45s var(--ease), box-shadow .45s var(--ease); }
+.theme-btn__knob::after { content: ''; position: absolute; top: -4px; right: -8px; width: 22px; height: 22px; border-radius: 50%; background: var(--toggle-night); transform: translateX(26px); transition: transform .5s var(--ease), background-color .45s var(--ease); }
+.theme-btn__stars i { position: absolute; width: 3px; height: 3px; border-radius: 50%; background: var(--color-text); opacity: 0; transform: scale(.4); transition: opacity .4s var(--ease), transform .4s var(--ease); }
+.theme-btn__stars i:nth-child(1) { left: 12px; top: 9px; }
+.theme-btn__stars i:nth-child(2) { left: 22px; top: 22px; width: 2px; height: 2px; }
+.theme-btn__stars i:nth-child(3) { left: 30px; top: 11px; width: 2px; height: 2px; }
+:root[data-theme="dark"] .theme-btn { background: var(--toggle-night); }
+:root[data-theme="dark"] .theme-btn__knob { transform: translateX(32px); background: var(--color-text); box-shadow: 0 0 0 4px var(--toggle-moonglow); }
+:root[data-theme="dark"] .theme-btn__knob::after { transform: translateX(0); }
+:root[data-theme="dark"] .theme-btn__stars i { opacity: .9; transform: scale(1); }
+:root[data-theme="dark"] .theme-btn__stars i:nth-child(2) { transition-delay: .12s; }
+:root[data-theme="dark"] .theme-btn__stars i:nth-child(3) { transition-delay: .24s; }
+/* Смена темы: новый вид растёт кругом от кнопки */
+::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
 .cart-btn__count { min-width: 22px; height: 22px; padding: 0 6px; border-radius: 11px; background: var(--color-accent); color: var(--color-on-accent); font: 600 13px/22px var(--font-body); text-align: center; }
 .cart-btn__count.bump { animation: bump .3s var(--ease); }
 @keyframes bump { 50% { transform: scale(1.25); } }
