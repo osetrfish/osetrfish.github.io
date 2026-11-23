@@ -349,30 +349,6 @@ if (new URLSearchParams(location.search).has('cart')) {
   openCart();
 }
 
-// Глаз осетра на первом экране смотрит за курсором (только там, где есть мышь и рыба показана).
-const eye = $('.eye');
-if (eye && matchMedia('(hover: hover) and (min-width: 901px) and (prefers-reduced-motion: no-preference)').matches) {
-  const pupil = eye.firstElementChild;
-  let frame = 0;
-  const look = (x, y) => {
-    const r = eye.getBoundingClientRect();
-    const dx = x - (r.left + r.width / 2);
-    const dy = y - (r.top + r.height / 2);
-    const dist = Math.hypot(dx, dy) || 1;
-    const reach = Math.min(dist / 260, 1) * r.width * 0.26;
-    pupil.style.setProperty('--ex', `${(dx / dist * reach).toFixed(1)}px`);
-    pupil.style.setProperty('--ey', `${(dy / dist * reach).toFixed(1)}px`);
-  };
-  addEventListener('pointermove', (e) => {
-    if (frame) return;
-    frame = requestAnimationFrame(() => { frame = 0; look(e.clientX, e.clientY); });
-  }, { passive: true });
-  document.documentElement.addEventListener('pointerleave', () => {
-    pupil.style.setProperty('--ex', '0px');
-    pupil.style.setProperty('--ey', '0px');
-  });
-}
-
 // Нажали на логотип в шапке: рыбка вздрагивает хвостом, из неё поднимаются пузырьки.
 const logo = $('.top .mark');
 if (logo && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
