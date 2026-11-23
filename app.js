@@ -370,37 +370,6 @@ if (logo && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
   });
 }
 
-// Телефон: на первом экране вода «отзывается» на прикосновение: от пальца расходятся круги и всплывают пузырьки.
-const water = $('.hero');
-if (water && matchMedia('(hover: none)').matches && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
-  let last = 0;
-  const splash = (e) => {
-    if (e.target.closest('a, button')) return;
-    const now = performance.now();
-    if (now - last < 120) return;
-    last = now;
-    const box = water.getBoundingClientRect();
-    const x = e.clientX - box.left;
-    const y = e.clientY - box.top;
-    const ring = document.createElement('span');
-    ring.className = 'ripple';
-    ring.style.left = `${x}px`;
-    ring.style.top = `${y}px`;
-    water.append(ring);
-    ring.addEventListener('animationend', () => ring.remove());
-    for (let i = 0; i < 3; i++) {
-      const b = document.createElement('span');
-      const size = 5 + Math.round(Math.random() * 8);
-      b.className = 'touch-bub';
-      b.style.cssText = `left:${x + Math.random() * 30 - 15}px;top:${y}px;width:${size}px;height:${size}px;animation-delay:${i * 140}ms;--tx:${Math.round(Math.random() * 40 - 20)}px`;
-      water.append(b);
-      b.addEventListener('animationend', () => b.remove());
-    }
-  };
-  water.addEventListener('pointerdown', splash);
-  water.addEventListener('pointermove', (e) => { if (e.pressure > 0) splash(e); });
-}
-
 // Волна под первым экраном двигается при прокрутке: задняя уходит влево, передняя вправо.
 const waveBack = $('.wave--hero .wave__back');
 const waveFront = $('.wave--hero .wave__front');
