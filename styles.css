@@ -114,7 +114,6 @@ button { font: inherit; color: inherit; }
 .touch-bub { opacity: 0; animation: touch-bub 1.8s ease-out forwards; background: rgba(233, 241, 238, .12); }
 @keyframes ripple { to { transform: scale(10); opacity: 0; } }
 @keyframes touch-bub { 0% { transform: translate(0, 0) scale(.5); opacity: 0; } 15% { opacity: .9; } 100% { transform: translate(var(--tx, 0px), -120px) scale(1.1); opacity: 0; } }
-@keyframes peek-in { from { opacity: 0; transform: translateY(24px) scale(.6); } }
 @keyframes flick { 15% { transform: rotate(-9deg); } 35% { transform: rotate(7deg); } 55% { transform: rotate(-5deg); } 75% { transform: rotate(3deg); } }
 @keyframes mark-bub { 0% { transform: translate(0, 8px) scale(.4); opacity: 0; } 20% { opacity: .9; } 100% { transform: translate(var(--bx, 4px), -14px) scale(1); opacity: 0; } }
 .hero__inner { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(0, .75fr); column-gap: clamp(32px, 5vw, 80px); align-items: start; }
@@ -166,7 +165,7 @@ button { font: inherit; color: inherit; }
 .good .btn--accent.is-added { background: var(--color-bg); color: var(--color-text); }
 
 /* Телефон: пузырьки воздуха поднимаются от волны под кнопками */
-.rise, .peek { display: none; }
+.rise { display: none; }
 
 
 /* Своё пожелание под прайсом */
@@ -401,10 +400,6 @@ button { font: inherit; color: inherit; }
   .nav { display: none; }
   .hero__inner { display: block; }
   .hero { padding-bottom: 270px; }
-  /* Глаз осетра выглядывает из воды и смотрит за пальцем */
-  .peek { display: block; position: absolute; right: 11%; bottom: 150px; width: 58px; height: 58px; border-radius: 50%; background: var(--color-bg); box-shadow: 0 0 0 4px var(--color-text), 0 0 0 9px rgba(233, 241, 238, .14); animation: peek-in 1.2s var(--ease) .4s both; transition: transform .16s var(--ease); }
-  .peek.is-blink { transform: scaleY(.08); }
-  .peek__pupil { position: absolute; inset: 22%; border-radius: 50%; background: radial-gradient(circle, var(--color-text) 0 26%, transparent 74%); transform: translate(var(--ex, 0px), var(--ey, 0px)); transition: transform .3s var(--ease); }
   .rise { display: block; position: absolute; left: 0; right: 0; bottom: 100px; height: 150px; }
   .rise span { position: absolute; bottom: 0; width: 10px; height: 10px; border-radius: 50%; box-shadow: inset 0 0 0 1.5px var(--color-text); background: rgba(233, 241, 238, .12); opacity: 0; animation: rise 6s ease-in infinite; }
   .rise span:nth-child(1) { left: 12%; animation-delay: 0s; }
