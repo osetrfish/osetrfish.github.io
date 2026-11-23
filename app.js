@@ -424,3 +424,34 @@ if (water && matchMedia('(hover: none)').matches && !matchMedia('(prefers-reduce
   water.addEventListener('pointerdown', splash);
   water.addEventListener('pointermove', (e) => { if (e.pressure > 0) splash(e); });
 }
+
+// Телефон: глаз осетра в воде смотрит за пальцем, а когда никто не трогает, оглядывается и моргает.
+const peek = $('.peek');
+if (peek && matchMedia('(hover: none)').matches && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  const pupil = peek.firstElementChild;
+  const gaze = (dx, dy) => {
+    const dist = Math.hypot(dx, dy) || 1;
+    const reach = peek.offsetWidth * 0.2 * Math.min(dist / 120, 1);
+    pupil.style.setProperty('--ex', `${(dx / dist * reach).toFixed(1)}px`);
+    pupil.style.setProperty('--ey', `${(dy / dist * reach).toFixed(1)}px`);
+  };
+  const lookAt = (e) => {
+    const r = peek.getBoundingClientRect();
+    gaze(e.clientX - (r.left + r.width / 2), e.clientY - (r.top + r.height / 2));
+    idle = performance.now();
+  };
+  let idle = 0;
+  document.addEventListener('pointerdown', lookAt, { passive: true });
+  document.addEventListener('pointermove', (e) => { if (e.pressure > 0) lookAt(e); }, { passive: true });
+  setInterval(() => {
+    if (performance.now() - idle < 2500) return;
+    const a = Math.random() * Math.PI * 2;
+    gaze(Math.cos(a) * 60, Math.sin(a) * 60);
+  }, 2200);
+  const blink = () => {
+    peek.classList.add('is-blink');
+    setTimeout(() => peek.classList.remove('is-blink'), 160);
+    setTimeout(blink, 3500 + Math.random() * 3000);
+  };
+  setTimeout(blink, 3000);
+}
