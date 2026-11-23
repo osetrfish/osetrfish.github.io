@@ -424,3 +424,31 @@ if (water && matchMedia('(hover: none)').matches && !matchMedia('(prefers-reduce
   water.addEventListener('pointerdown', splash);
   water.addEventListener('pointermove', (e) => { if (e.pressure > 0) splash(e); });
 }
+
+// Волна под первым экраном двигается при прокрутке: задняя уходит влево, передняя вправо.
+const waveBack = $('.wave--hero .wave__back');
+const waveFront = $('.wave--hero .wave__front');
+if (waveBack && waveFront && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  const make = (path, base, amp, period) => {
+    let d = `M${-period} ${base}`;
+    for (let x = -period; x <= 1440 + period; x += period / 36) {
+      d += ` L${x.toFixed(1)} ${(base - amp * Math.sin((2 * Math.PI * x) / period)).toFixed(1)}`;
+    }
+    path.setAttribute('d', `${d} V220 H${-period}Z`);
+  };
+  const back = { path: waveBack, period: 1440, speed: -0.7 };
+  const front = { path: waveFront, period: 960, speed: 1.1 };
+  make(back.path, 116, 36, back.period);
+  make(front.path, 174, 26, front.period);
+  let ticking = false;
+  const move = () => {
+    ticking = false;
+    const y = Math.min(scrollY, innerHeight * 1.5);
+    for (const w of [back, front]) {
+      const shift = (((y * w.speed) % w.period) + w.period) % w.period;
+      w.path.style.transform = `translateX(${(-shift).toFixed(1)}px)`;
+    }
+  };
+  addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(move); } }, { passive: true });
+  move();
+}

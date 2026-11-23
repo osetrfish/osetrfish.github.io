@@ -121,9 +121,9 @@ button { font: inherit; color: inherit; }
 .hero__fish { grid-column: 2; grid-row: 1 / span 5; align-self: center; justify-self: end; position: relative; width: 100%; max-width: 440px; animation: fish-in 1.8s cubic-bezier(.16, .84, .3, 1) both; }
 .hero__body { position: relative; animation: swim 7s ease-in-out 1.8s infinite; }
 .hero__fish img { width: 100%; height: auto; }
-/* Глаз осетра: поверх рисованного зрачка стоит свой, он смотрит за курсором */
-.eye { position: absolute; left: 48.2%; top: 73.4%; width: 5.8%; aspect-ratio: 1; transform: translate(-50%, -50%); border-radius: 50%; background: var(--color-bg); pointer-events: none; }
-.eye__pupil { position: absolute; inset: 16%; border-radius: 50%; background: radial-gradient(circle, var(--color-text) 0 24%, transparent 72%); transform: translate(var(--ex, 0px), var(--ey, 0px)); transition: transform .14s ease-out; }
+/* Глаз осетра у носа: рисованный глаз с логотипа убран (logo-hero.png), свой смотрит за курсором */
+.eye { position: absolute; left: 36.1%; top: 66.1%; width: 3.6%; aspect-ratio: 1; transform: translate(-50%, -50%); border-radius: 50%; background: var(--color-bg); pointer-events: none; }
+.eye__pupil { position: absolute; inset: 26%; border-radius: 50%; background: radial-gradient(circle, var(--color-text) 0 24%, transparent 72%); transform: translate(var(--ex, 0px), var(--ey, 0px)); transition: transform .14s ease-out; }
 /* Пузырьки поднимаются от носа осетра */
 .bubble { position: absolute; left: 6%; top: 72%; width: 12px; height: 12px; border-radius: 50%; box-shadow: inset 0 0 0 1.5px var(--color-text); opacity: 0; animation: bubble 3.6s ease-out infinite; }
 .bubble:nth-of-type(2) { left: 10%; width: 8px; height: 8px; animation-delay: 1.2s; }
